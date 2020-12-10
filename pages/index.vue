@@ -115,13 +115,13 @@ export default {
       newProject.id = this.projectIdCount;
       this.projectIdCount++;
       this.projects.push(newProject);
-      this.projectSelected = this.projectIdCount;
+      this.projectSelected = this.projectIdCount - 1;
       this.saveProjects();
     },
     deleteProject(index) {
       if (index > -1) {
-        if (this.projectSelected !== 0) {
-          this.projectSelected--;
+        if (this.projectSelected === this.projects[index].id) {
+          this.projectSelected = this.projects[index - 1].id;
         }
         this.projects.splice(index, 1);
       }
