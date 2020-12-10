@@ -2,6 +2,7 @@
 
 :root {
   --font-color: #0f0f0f;
+  --light-font-color: #8d8d8d;
   --main-color: #868686;
   --second-color: #456be9;
   --grey-color: #dfdede;
@@ -382,4 +383,26 @@ h1 {
 
 .calendar-list-view .time .time-title {
   font-weight: bold;
+}
+
+.calendar-list-view .time .time-description {
+}
+
+.calendar-list-view .time .time-start-date {
+  color: var(--light-font-color);
+}
+
+.calendar-list-view .time .time-start-time {
+  color: var(--light-font-color);
+}
+
+.calendar-list-view .time .time-end-date {
+  color: var(--light-font-color);
+}
+
+.calendar-list-view .time .time-end-time {
+  color: var(--light-font-color);
+}
+
+.calendar-list-view .time .time-duration {
 }

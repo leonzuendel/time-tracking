@@ -13,16 +13,26 @@
       <li v-for="(time, index) in project.times" :key="index" class="time">
         <div v-if="time.title" class="time-title">{{ time.title }}</div>
         <div v-else class="time-title">Untitled</div>
-        <div v-if="time.content">{{ time.content }}</div>
-        <div v-else>No Description</div>
-        <div v-if="time.start">{{ time.start.toLocaleDateString() }}</div>
-        <div v-else></div>
-        <div v-if="time.start">{{ time.start.toLocaleTimeString() }}</div>
-        <div v-else></div>
-        <div v-if="time.end">{{ time.end.toLocaleDateString() }}</div>
-        <div v-else></div>
-        <div v-if="time.end">{{ time.end.toLocaleTimeString() }}</div>
-        <div v-else></div>
+        <div v-if="time.content" class="time-description">
+          {{ time.content }}
+        </div>
+        <div v-else class="time-description">No Description</div>
+        <div v-if="time.start" class="time-start-date">
+          {{ time.start.toLocaleDateString() }}
+        </div>
+        <div v-else class="time-start-date"></div>
+        <div v-if="time.start" class="time-start-time">
+          {{ time.start.toLocaleTimeString() }}
+        </div>
+        <div v-else class="time-start-time"></div>
+        <div v-if="time.end" class="time-end-date">
+          {{ time.end.toLocaleDateString() }}
+        </div>
+        <div v-else class="time-end-date"></div>
+        <div v-if="time.end" class="time-end-time">
+          {{ time.end.toLocaleTimeString() }}
+        </div>
+        <div v-else class="time-end-time"></div>
         <div class="time-duration">{{ getDuration(time.start, time.end) }}</div>
       </li>
     </ul>
