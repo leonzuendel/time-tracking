@@ -1,107 +1,117 @@
 <template>
   <div id="content" class="has-side-bar">
     <div v-if="dataReady" id="side-bar">
-      <ul id="note-nav">
+      <ul id="project-nav">
         <li
-          v-for="(note, index) in notes"
+          v-for="(project, index) in projects"
           :key="index"
-          :ref="'note-li-' + index"
+          :ref="'project-li-' + index"
           :class="isActive(index)"
         >
           <div
-            v-if="note.title !== ''"
+            v-if="project.title !== ''"
             class="inner"
-            @click="selectNote(index)"
+            @click="selectProject(index)"
           >
-            <i class="las la-edit"></i>{{ note.title }}
+            <i class="las la-edit"></i>{{ project.title }}
           </div>
-          <div v-else class="inner" @click="selectNote(index)">
+          <div v-else class="inner" @click="selectProject(index)">
             <i class="las la-edit"></i>Untitled
           </div>
           <div>
-            <button class="delete-note" @click="deleteNote(index)">
+            <button class="delete-project" @click="deleteProject(index)">
               <i class="lar la-trash-alt"></i>
             </button>
           </div>
         </li>
       </ul>
-      <button class="add-note" @click="addNote()">
-        <i class="las la-plus-circle"></i>Add Note
+      <button class="add-project" @click="addProject()">
+        <i class="las la-plus-circle"></i>Add project
       </button>
     </div>
     <div v-if="dataReady" id="inner">
-      <Note v-if="notes && currentNote" :note.sync="currentNote" />
-      <p v-else class="no-notes">Press "Add Note" to add your first note.</p>
+      <Project
+        v-if="projects && currentProject"
+        :project.sync="currentProject"
+      />
+      <p v-else class="no-projects">
+        Press "Add Project" to add your first project.
+      </p>
     </div>
     <div v-else class="loading">Loading Data...</div>
   </div>
 </template>
 
 <script>
-import Note from "~/components/Note";
+import Project from "@/components/Project";
 
 export default {
-  name: "Notes",
+  name: "Projects",
 
   components: {
-    Note
+    Project
   },
 
   data() {
     return {
-      noteSelected: 0,
-      notes: [],
-      dataReady: false
+      projectSelected: 0,
+      projects: [],
+      dataReady: false,
+      projectBoilerplate: {
+        title: "",
+        content: "",
+        times: []
+      }
     };
   },
 
   computed: {
-    currentNote() {
-      return this.notes[this.noteSelected];
+    currentProject() {
+      return this.projects[this.projectSelected];
     }
   },
 
   watch: {
-    currentNote: {
+    currentProject: {
       handler(val) {
-        this.saveNotes();
+        this.saveProjects();
       },
       deep: true
     }
   },
 
   async mounted() {
-    const notes = await this.$localForage.getItem("Notes");
-    if (notes) {
-      this.notes = notes;
+    const projects = await this.$localForage.getItem("Projects");
+    if (projects) {
+      this.projects = projects;
     }
     this.dataReady = true;
   },
 
   methods: {
-    async saveNotes() {
-      await this.$localForage.setItem("Notes", this.notes);
-      console.log("Notes saved");
+    async saveProjects() {
+      await this.$localForage.setItem("Projects", this.projects);
+      console.log("Projects saved");
     },
-    addNote() {
-      this.notes.push({ title: "", content: "" });
-      this.noteSelected = this.notes.length - 1;
-      this.saveNotes();
+    addProject() {
+      this.projects.push({ ...this.projectBoilerplate });
+      this.projectSelected = this.projects.length - 1;
+      this.saveProjects();
     },
-    deleteNote(index) {
+    deleteProject(index) {
       if (index > -1) {
-        if (this.noteSelected !== 0) {
-          this.noteSelected--;
+        if (this.projectSelected !== 0) {
+          this.projectSelected--;
         }
-        this.notes.splice(index, 1);
+        this.projects.splice(index, 1);
       }
-      this.saveNotes();
+      this.saveProjects();
     },
-    selectNote(index) {
-      this.noteSelected = index;
+    selectProject(index) {
+      this.projectSelected = index;
     },
     isActive(index) {
-      if (index === this.noteSelected) {
+      if (index === this.projectSelected) {
         return "active";
       }
     }

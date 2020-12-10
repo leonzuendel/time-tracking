@@ -1,27 +1,21 @@
 export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
-    title: "NotesApp",
+    title: "TimeTracking",
     meta: [
       { charset: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { hid: "description", name: "description", content: "" }
     ],
-    link: [
-      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
-      {
-        rel: "stylesheet",
-        href:
-          "https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css"
-      }
-    ]
+    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
   },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: [
     "@/assets/css/main.css",
     "quill/dist/quill.core.css",
-    "quill/dist/quill.snow.css"
+    "quill/dist/quill.snow.css",
+    "@/assets/fonts/line-awesome/css/line-awesome.min.css"
   ],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
@@ -39,9 +33,9 @@ export default {
 
   localforage: {
     /* module options */
-    name: "NotesApp",
-    storeName: "NotesApp Storage",
-    description: "All notes are stored here locally."
+    name: "TimeTracking App",
+    storeName: "TimeTracking App Storage",
+    description: "All data is stored here locally."
   },
 
   // Modules (https://go.nuxtjs.dev/config-modules)

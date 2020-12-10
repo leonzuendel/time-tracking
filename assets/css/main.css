@@ -8,6 +8,7 @@
   --bg-color: #f1f1f1;
   --site-padding: 25px;
   --top-bar-height: 45px;
+  --tabs-height: 40px;
 }
 
 /* Main */
@@ -48,6 +49,7 @@ h1 {
 #content:not(.has-side-bar) {
   padding: 30px;
   overflow: scroll;
+  position: relative;
 }
 
 #content.has-side-bar {
@@ -58,8 +60,8 @@ h1 {
 }
 
 #content #inner {
-  padding: 30px;
   overflow-y: auto;
+  position: relative;
 }
 
 #side-bar {
@@ -72,12 +74,12 @@ h1 {
   padding: 30px;
 }
 
-/* Notes */
+/* projects */
 
-#note-nav {
+#project-nav {
 }
 
-#note-nav li {
+#project-nav li {
   cursor: pointer;
   display: grid;
   grid-template-columns: 6fr 1fr;
@@ -86,25 +88,82 @@ h1 {
   margin-bottom: 2px;
 }
 
-#note-nav li .inner {
+#project-nav li .inner {
   padding: 30px;
   background-color: var(--grey-color);
 }
 
-#note-nav li .inner:hover {
+#project-nav li .inner:hover {
   filter: brightness(0.96);
 }
 
-#note-nav li.active .inner {
+#project-nav li.active .inner {
   background-color: var(--main-color);
   color: var(--bg-color);
 }
 
-.note {
-  margin-bottom: 50px;
+.project {
+  padding-top: var(--tabs-height);
 }
 
-.note-title {
+.info {
+  margin-bottom: 50px;
+  padding: 30px;
+}
+
+.project-tabs {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  background-color: var(--grey-color);
+  height: var(--tabs-height);
+  padding: 0px 40px 0px 40px;
+}
+
+.project-tabs ul li {
+  display: inline-block;
+  padding: 8px 15px 8px 15px;
+  cursor: pointer;
+  border-right: 3px solid var(--bg-color);
+  background-color: var(--grey-color);
+}
+
+.project-tabs ul li:hover {
+  filter: brightness(0.96);
+}
+
+.project-tabs ul li.active {
+  background-color: var(--main-color);
+  color: white;
+}
+
+.view-switch {
+  position: absolute;
+  left: 0;
+  top: var(--tabs-height);
+  margin: 5px;
+}
+
+.view-switch ul li {
+  display: inline-block;
+  margin-right: 3px;
+  padding: 6px 12px 6px 12px;
+  background-color: var(--grey-color);
+  cursor: pointer;
+}
+
+.view-switch ul li:hover {
+  filter: brightness(0.97);
+}
+
+.view-switch ul li.active {
+  background-color: var(--main-color);
+  color: var(--bg-color);
+}
+
+.project-title {
   margin-bottom: 1em;
   font-size: 2em;
   font-weight: bold;
@@ -112,12 +171,12 @@ h1 {
   margin-left: 10px;
 }
 
-.note-title:focus {
+.project-title:focus {
   outline: none;
   border: none;
 }
 
-.add-note {
+.add-project {
   width: 100%;
   padding: 30px;
   border: none;
@@ -128,21 +187,21 @@ h1 {
   filter: brightness(0.76);
 }
 
-.add-note i,
+.add-project i,
 #top-bar i {
   margin-right: 1em;
 }
 
-#note-nav li .inner i {
+#project-nav li .inner i {
   vertical-align: 1px;
   margin-right: 1em;
 }
 
-.add-note:hover {
+.add-project:hover {
   filter: brightness(0.72);
 }
 
-.delete-note {
+.delete-project {
   padding: 10px;
   border: none;
   background-color: var(--grey-color);
@@ -154,14 +213,14 @@ h1 {
   width: 100%;
 }
 
-.delete-note i {
+.delete-project i {
 }
 
-.delete-note:hover {
+.delete-project:hover {
   filter: brightness(0.86);
 }
 
-.no-notes {
+.no-projects {
   opacity: 0.55;
   font-weight: bold;
   font-size: 1.6em;
@@ -265,4 +324,62 @@ h1 {
 .ql-snow.ql-toolbar button:hover .ql-stroke.ql-fill,
 .ql-snow .ql-toolbar button:hover .ql-stroke.ql-fill {
   fill: var(--second-color) !important;
+}
+
+/* Calendar */
+
+.calendar.times {
+  height: calc(100vh - var(--tabs-height) - var(--top-bar-height));
+}
+
+.vuecal__event {
+  background-color: var(--main-color) !important;
+  color: var(--bg-color) !important;
+}
+
+.vuecal__cell--current,
+.vuecal__cell--today {
+  background-color: var(--bg-color) !important;
+  filter: brightness(0.97);
+}
+
+.vuecal__cell--selected {
+  background-color: transparent !important;
+}
+
+.vuecal__now-line {
+  color: var(--second-color) !important;
+}
+
+.calendar-list-view {
+  padding-top: 40px;
+}
+
+.calendar-list-view ul {
+  width: 100%;
+  padding: 5px;
+}
+
+.calendar-list-view .time {
+  width: 100%;
+  margin-bottom: 8px;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 2fr 3fr 1fr 1fr 1fr 1fr 2fr;
+  grid-gap: 3px;
+  justify-items: stretch;
+}
+
+.calendar-list-view .time:not(.headline) > div {
+  background-color: var(--grey-color);
+  padding: 15px;
+}
+
+.calendar-list-view .time.headline > div {
+  background-color: none;
+  padding: 3px 15px 3px 15px;
+}
+
+.calendar-list-view .time .time-title {
+  font-weight: bold;
 }
