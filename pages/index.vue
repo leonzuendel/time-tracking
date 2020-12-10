@@ -2,28 +2,32 @@
   <div id="content" class="has-side-bar">
     <div v-if="dataReady" id="side-bar">
       <ul id="project-nav">
-        <li
-          v-for="(project, index) in projects"
-          :key="index"
-          :ref="'project-li-' + index"
-          :class="isActive(index)"
-        >
-          <div
-            v-if="project.title !== ''"
-            class="inner"
-            @click="selectProject(index)"
+        <draggable v-model="projects" handle=".handle">
+          <li
+            v-for="(project, index) in projects"
+            :key="index"
+            :ref="'project-li-' + index"
+            :class="isActive(project.id)"
           >
-            <i class="las la-edit"></i>{{ project.title }}
-          </div>
-          <div v-else class="inner" @click="selectProject(index)">
-            <i class="las la-edit"></i>Untitled
-          </div>
-          <div>
-            <button class="delete-project" @click="deleteProject(index)">
-              <i class="lar la-trash-alt"></i>
-            </button>
-          </div>
-        </li>
+            <div
+              v-if="project.title !== ''"
+              class="inner"
+              @click="selectProject(project.id)"
+            >
+              <i class="las la-grip-vertical handle"></i
+              ><i class="las la-edit"></i>{{ project.title }}
+            </div>
+            <div v-else class="inner" @click="selectProject(project.id)">
+              <i class="las la-grip-vertical handle"></i
+              ><i class="las la-edit"></i>Untitled
+            </div>
+            <div>
+              <button class="delete-project" @click="deleteProject(index)">
+                <i class="lar la-trash-alt"></i>
+              </button>
+            </div>
+          </li>
+        </draggable>
       </ul>
       <button class="add-project" @click="addProject()">
         <i class="las la-plus-circle"></i>Add project
@@ -54,20 +58,24 @@ export default {
 
   data() {
     return {
-      projectSelected: 0,
+      projectSelected: 1,
       projects: [],
       dataReady: false,
       projectBoilerplate: {
         title: "",
         content: "",
         times: []
-      }
+      },
+      projectIdCount: 1
     };
   },
 
   computed: {
     currentProject() {
-      return this.projects[this.projectSelected];
+      const result = this.projects.filter((obj) => {
+        return obj.id === this.projectSelected;
+      });
+      return result[0];
     }
   },
 
@@ -77,25 +85,37 @@ export default {
         this.saveProjects();
       },
       deep: true
+    },
+    projects: {
+      handler(val) {
+        this.saveProjects();
+      },
+      deep: true
     }
   },
 
   async mounted() {
+    this.projectIdCount = await this.$localForage.getItem("ProjectIdCount");
     const projects = await this.$localForage.getItem("Projects");
     if (projects) {
       this.projects = projects;
     }
+    this.projectSelected = this.projects[0].id;
     this.dataReady = true;
   },
 
   methods: {
     async saveProjects() {
+      await this.$localForage.setItem("ProjectIdCount", this.projectIdCount);
       await this.$localForage.setItem("Projects", this.projects);
       console.log("Projects saved");
     },
     addProject() {
-      this.projects.push({ ...this.projectBoilerplate });
-      this.projectSelected = this.projects.length - 1;
+      const newProject = { ...this.projectBoilerplate };
+      newProject.id = this.projectIdCount;
+      this.projectIdCount++;
+      this.projects.push(newProject);
+      this.projectSelected = this.projectIdCount;
       this.saveProjects();
     },
     deleteProject(index) {
@@ -107,11 +127,11 @@ export default {
       }
       this.saveProjects();
     },
-    selectProject(index) {
-      this.projectSelected = index;
+    selectProject(id) {
+      this.projectSelected = id;
     },
-    isActive(index) {
-      if (index === this.projectSelected) {
+    isActive(id) {
+      if (id === this.projectSelected) {
         return "active";
       }
     }

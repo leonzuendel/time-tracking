@@ -9,6 +9,7 @@
     :events-count-on-year-view="true"
     :transitions="false"
     :snap-to-time="10"
+    :time-cell-height="80"
     :editable-events="{
       title: true,
       drag: true,

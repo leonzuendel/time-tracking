@@ -20,7 +20,8 @@
     "nuxt": "^2.14.6",
     "nuxt-buefy": "^0.4.3",
     "vue-cal": "^3.9.0",
-    "vue-quill-editor": "^3.0.6"
+    "vue-quill-editor": "^3.0.6",
+    "vuedraggable": "^2.24.3"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^3.1.0",

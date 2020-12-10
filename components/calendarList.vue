@@ -8,7 +8,9 @@
         <div>Start Time</div>
         <div>End Date</div>
         <div>End Time</div>
-        <div>Duration</div>
+        <div>
+          Duration <span class="light">({{ totalDuration }})</span>
+        </div>
       </li>
       <li v-for="(time, index) in project.times" :key="index" class="time">
         <div class="delete-time" @click="deleteTime(index)">
@@ -52,6 +54,15 @@ export default {
   components: {},
   props: {
     project: Object
+  },
+  computed: {
+    totalDuration() {
+      let duration = 0;
+      this.project.times.forEach((time) => {
+        duration += Math.abs(time.end - time.start);
+      });
+      return this.timeConversion(duration);
+    }
   },
   methods: {
     getDuration(startDate, endDate) {
