@@ -13,12 +13,13 @@
       title: true,
       drag: true,
       resize: true,
-      delete: true,
+      delete: false,
       create: true
     }"
     :events="project.times"
     @view-change="updateEvents()"
     @event-change="updateEvents()"
+    @event-deleted="updateEvents()"
     @event-drop="updateEvents()"
   >
   </vue-cal>
@@ -36,7 +37,11 @@ export default {
   methods: {
     updateEvents() {
       const events = this.$refs.calendar.mutableEvents;
-      this.project.times = events;
+      if (events) {
+        this.project.times = events;
+      } else {
+        this.project.times = [];
+      }
       this.$emit("update:project", this.project);
     }
   }

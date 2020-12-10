@@ -55,7 +55,7 @@ h1 {
 
 #content.has-side-bar {
   display: grid;
-  grid-template-columns: 1fr 6fr;
+  grid-template-columns: 1fr 5fr;
   overflow: hidden;
   height: calc(100vh - var(--top-bar-height));
 }
@@ -369,6 +369,19 @@ h1 {
   grid-template-columns: 2fr 3fr 1fr 1fr 1fr 1fr 2fr;
   grid-gap: 3px;
   justify-items: stretch;
+  position: relative;
+}
+
+.calendar-list-view .time .delete-time {
+  position: absolute;
+  right: 0;
+  background-color: var(--grey-color);
+  filter: brightness(0.9);
+  cursor: pointer;
+}
+
+.calendar-list-view .time .delete-time :hover {
+  filter: brightness(0.86);
 }
 
 .calendar-list-view .time:not(.headline) > div {
@@ -379,6 +392,18 @@ h1 {
 .calendar-list-view .time.headline > div {
   background-color: none;
   padding: 3px 15px 3px 15px;
+}
+
+.calendar-list-view .time input {
+  border: none;
+  background-color: transparent;
+  font-size: inherit;
+  width: 100%;
+}
+
+.calendar-list-view .time input:focus {
+  outline: none;
+  border: none;
 }
 
 .calendar-list-view .time .time-title {

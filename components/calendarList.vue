@@ -11,12 +11,20 @@
         <div>Duration</div>
       </li>
       <li v-for="(time, index) in project.times" :key="index" class="time">
-        <div v-if="time.title" class="time-title">{{ time.title }}</div>
-        <div v-else class="time-title">Untitled</div>
-        <div v-if="time.content" class="time-description">
-          {{ time.content }}
+        <div class="delete-time" @click="deleteTime(index)">
+          <i class="lar la-trash-alt"></i>
         </div>
-        <div v-else class="time-description">No Description</div>
+        <div class="time-title">
+          <input v-model="time.title" type="text" placeholder="Untitled" />
+        </div>
+        <div class="time-description">
+          <input
+            v-model="time.content"
+            type="text"
+            placeholder="No Description"
+          />
+        </div>
+
         <div v-if="time.start" class="time-start-date">
           {{ time.start.toLocaleDateString() }}
         </div>
@@ -49,6 +57,11 @@ export default {
     getDuration(startDate, endDate) {
       const duration = Math.abs(endDate - startDate);
       return this.timeConversion(duration);
+    },
+    deleteTime(index) {
+      if (index > -1) {
+        this.project.times.splice(index, 1);
+      }
     },
     timeConversion(millisec) {
       const seconds = (millisec / 1000).toFixed(1);
