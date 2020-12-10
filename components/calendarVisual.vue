@@ -3,6 +3,7 @@
     ref="calendar"
     :watch-real-time="true"
     :today-button="true"
+    resize-x
     :active-view="'week'"
     :events-on-month-view="'short'"
     :events-count-on-year-view="true"
