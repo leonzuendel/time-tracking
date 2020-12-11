@@ -1,7 +1,7 @@
 <template>
   <section id="settings">
-    <h2>Project Integrations</h2>
-    <p>Connect this project to other applications and services.</p>
+    <h2>Integrations</h2>
+    <p>Connect this workspace to other applications and services.</p>
     <h3>ToDoist Api Token</h3>
     <input
       v-model="settings.ToDoistApiKey"
