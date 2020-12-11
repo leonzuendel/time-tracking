@@ -1,42 +1,40 @@
 <template>
-  <section class="settings">
-    <h2>Delete this project</h2>
-    <p>Use with caution. Deletion can not be reversed.</p>
-    <p v-if="project.title !== ''">
-      Please fill in the title of this project ("<b>{{ project.title }}</b
-      >") to confirm deletion:
-    </p>
+  <section id="settings">
+    <h2>Project Integrations</h2>
+    <p>Connect this project to other applications and services.</p>
+    <h3>ToDoist Api Token</h3>
     <input
-      v-if="project.title !== ''"
-      v-model="safeDeleteInput"
+      v-model="settings.ToDoistApiKey"
       type="text"
-      placeholder="Project Title"
-      class="safe-delete-input"
+      placeholder="e.g. d5e889n4knm865nbn324jb2jb3b44bjbaeedc6"
+      class="form-input"
     />
-    <button class="delete-project-button" @click="deleteProject(index)">
-      <i class="lar la-trash-alt"></i> Delete Project
-    </button>
   </section>
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   components: {},
-  props: {
-    project: Object,
-    index: Number
+  computed: {
+    ...mapState(["settings"])
   },
+  props: {},
   data() {
-    return {
-      safeDeleteInput: ""
-    };
+    return {};
+  },
+  watch: {
+    settings: {
+      handler(val) {
+        this.changeSettings();
+      },
+      deep: true
+    }
   },
   mounted() {},
   methods: {
-    deleteProject(index) {
-      if (this.safeDeleteInput === this.project.title) {
-        this.$parent.deleteProject(index);
-      }
+    changeSettings() {
+      this.$store.dispatch("changeSettings", this.settings);
     }
   }
 };

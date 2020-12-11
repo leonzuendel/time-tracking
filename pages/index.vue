@@ -67,7 +67,10 @@ export default {
         content: "",
         times: [],
         toDos: [],
-        id: 1
+        id: 1,
+        settings: {
+          ToDoistProject: ""
+        }
       },
       projectIdCount: 1
     };
@@ -134,7 +137,10 @@ export default {
         content: "",
         times: [],
         toDos: [],
-        id: 1
+        id: 1,
+        settings: {
+          ToDoistProject: ""
+        }
       };
       newProject.id = this.projectIdCount;
       this.projectIdCount++;

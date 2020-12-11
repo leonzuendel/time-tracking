@@ -58,6 +58,12 @@ h2 {
   margin-bottom: 0.6em;
 }
 
+h3 {
+  font-size: 1.1em;
+  font-weight: bold;
+  margin-bottom: 0.6em;
+}
+
 p {
   margin-bottom: 1em;
 }
@@ -68,14 +74,24 @@ p {
 
 #container {
   overflow: hidden;
+  position: relative;
 }
 
 #top-bar {
   height: var(--top-bar-height);
   width: 100%;
   background-color: var(--grey-color);
-  padding: 10px 30px 10px 30px;
   border-bottom: 2px solid var(--bg-color);
+}
+
+#top-bar > div {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: inline-block;
+}
+
+#top-bar .app-title {
+  padding-left: 10px;
 }
 
 #content:not(.has-side-bar) {
@@ -513,7 +529,7 @@ li.active .handle {
   margin-bottom: 8px;
   box-sizing: border-box;
   display: grid;
-  grid-template-columns: 0.6fr 3fr 1fr 4fr 2fr;
+  grid-template-columns: 80px 3fr 1fr 4fr 2fr;
   grid-gap: 3px;
   justify-items: stretch;
   position: relative;
@@ -628,16 +644,18 @@ input[type="checkbox"]:checked + label::after {
   bottom: 4px;
 }
 
-/* Settings */
+/* Project Settings */
 
 .settings {
   padding: 30px;
 }
 
-.safe-delete-input {
+.safe-delete-input,
+.form-input {
   padding: 9px;
   font-size: inherit;
   border: 1px solid var(--main-color);
+  margin-bottom: 1em;
 }
 
 .delete-project-button {
@@ -652,4 +670,35 @@ input[type="checkbox"]:checked + label::after {
 .delete-project-button:hover {
   background-color: var(--red-color);
   color: var(--bg-color);
+}
+
+/* Settings */
+
+.settings-button {
+  float: right;
+  background-color: var(--grey-color);
+  border: none;
+  border-left: 2px solid var(--bg-color);
+  padding: 10px;
+  height: 100%;
+  text-align: center;
+  font-size: 0.85em;
+  cursor: pointer;
+}
+
+.settings-button:hover {
+  filter: brightness(0.97);
+}
+
+#settings {
+  padding: 30px;
+  height: 100vh;
+  width: 100%;
+  background-color: var(--bg-color);
+  position: absolute;
+  top: var(--top-bar-height);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
 }

@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import Settings from "@/components/Settings";
+import ProjectSettings from "@/components/ProjectSettings";
 import Info from "@/components/Info";
 import Calendar from "@/components/Calendar";
 import ToDos from "@/components/ToDos";
@@ -33,7 +33,8 @@ export default {
   components: {
     Calendar,
     ToDos,
-    Info
+    Info,
+    ProjectSettings
   },
   props: {
     project: Object,
@@ -60,7 +61,7 @@ export default {
         },
         {
           title: "Project Settings",
-          component: "Settings",
+          component: "ProjectSettings",
           icon: "<i class='las la-sliders-h'></i>"
         }
       ],
@@ -99,8 +100,8 @@ export default {
         case "ToDos":
           component = ToDos;
           break;
-        case "Settings":
-          component = Settings;
+        case "ProjectSettings":
+          component = ProjectSettings;
           break;
       }
       return component;
