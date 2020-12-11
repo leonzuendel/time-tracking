@@ -150,6 +150,8 @@ export default {
         ) {
           if (index > 0) {
             this.projectSelected = this.projects[index - 1].id;
+          } else if (this.projects.length > 1) {
+            this.projectSelected = this.projects[1].id;
           } else {
             this.projectSelected = 0;
           }
