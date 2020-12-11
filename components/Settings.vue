@@ -1,6 +1,6 @@
 <template>
   <section id="settings">
-    <h2>Integrations</h2>
+    <h2>Workspace Integrations</h2>
     <p>Connect this workspace to other applications and services.</p>
     <h3>ToDoist Api Token</h3>
     <input
