@@ -2,14 +2,15 @@
   <section class="project">
     <div v-if="dataReady" class="project-tabs">
       <ul>
-        <draggable v-model="tabs" handle=".handle">
+        <draggable v-model="tabs" handle=".handle" ghost-class="ghost">
           <li
             v-for="(tab, index) in tabs"
             :key="index"
             :class="isActive(tab)"
             @click="switchTab(tab)"
           >
-            <i class="las la-grip-vertical handle"></i>
+            <i class="las la-braille handle"></i>
+            <span class="icon-span" v-html="tab.icon"></span>
             {{ tab.title }}
           </li>
         </draggable>
@@ -18,26 +19,50 @@
     <component
       :is="getComponent(currentTabComponent)"
       :project.sync="project"
+      :index="index"
     ></component>
   </section>
 </template>
 
 <script>
+import Settings from "@/components/Settings";
 import Info from "@/components/Info";
 import Calendar from "@/components/Calendar";
+import ToDos from "@/components/ToDos";
 export default {
   components: {
-    Calendar
+    Calendar,
+    ToDos,
+    Info
   },
   props: {
-    project: Object
+    project: Object,
+    index: Number
   },
   data() {
     return {
-      currentTabComponent: "",
+      currentTabComponent: "Info",
       tabs: [
-        { title: "Info", component: "Info" },
-        { title: "Times", component: "Calendar" }
+        {
+          title: "Info",
+          component: "Info",
+          icon: "<i class='lar la-edit'></i>"
+        },
+        {
+          title: "Times",
+          component: "Calendar",
+          icon: "<i class='las la-stopwatch'></i>"
+        },
+        {
+          title: "ToDos",
+          component: "ToDos",
+          icon: "<i class='lar la-list-alt'></i>"
+        },
+        {
+          title: "Project Settings",
+          component: "Settings",
+          icon: "<i class='las la-sliders-h'></i>"
+        }
       ],
       dataReady: false
     };
@@ -57,7 +82,9 @@ export default {
     }
     this.dataReady = true;
     console.log("TabsOrder loaded");
-    this.currentTabComponent = tabs[0].component;
+    if (tabs) {
+      this.currentTabComponent = tabs[0].component;
+    }
   },
   methods: {
     getComponent(componentString) {
@@ -68,6 +95,12 @@ export default {
           break;
         case "Calendar":
           component = Calendar;
+          break;
+        case "ToDos":
+          component = ToDos;
+          break;
+        case "Settings":
+          component = Settings;
           break;
       }
       return component;
@@ -83,6 +116,9 @@ export default {
     async saveTabsOrder() {
       await this.$localForage.setItem("TabsOrder", this.tabs);
       console.log("Tabs Order saved");
+    },
+    deleteProject(index) {
+      this.$parent.deleteProject(index);
     }
   }
 };

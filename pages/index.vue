@@ -2,10 +2,10 @@
   <div id="content" class="has-side-bar">
     <div v-if="dataReady" id="side-bar">
       <ul id="project-nav">
-        <draggable v-model="projects" handle=".handle">
+        <draggable v-model="projects" handle=".handle" ghost-class="ghost">
           <li
             v-for="(project, index) in projects"
-            :key="index"
+            :key="project.id"
             :ref="'project-li-' + index"
             :class="isActive(project.id)"
           >
@@ -14,12 +14,12 @@
               class="inner"
               @click="selectProject(project.id)"
             >
-              <i class="las la-grip-vertical handle"></i
-              ><i class="las la-edit"></i>{{ project.title }}
+              <i class="las la-braille handle"></i><i class="lar la-folder"></i
+              >{{ project.title }}
             </div>
             <div v-else class="inner" @click="selectProject(project.id)">
-              <i class="las la-grip-vertical handle"></i
-              ><i class="las la-edit"></i>Untitled
+              <i class="las la-braille handle"></i
+              ><i class="lar la-folder"></i>Untitled
             </div>
             <div>
               <button class="delete-project" @click="deleteProject(index)">
@@ -30,13 +30,14 @@
         </draggable>
       </ul>
       <button class="add-project" @click="addProject()">
-        <i class="las la-plus-circle"></i>Add project
+        <i class="las la-plus-circle"></i>Add Project
       </button>
     </div>
     <div v-if="dataReady" id="inner">
       <Project
         v-if="projects && currentProject"
         :project.sync="currentProject"
+        :index="currentProjectIndex"
       />
       <p v-else class="no-projects">
         Press "Add Project" to add your first project.
@@ -64,7 +65,9 @@ export default {
       projectBoilerplate: {
         title: "",
         content: "",
-        times: []
+        times: [],
+        toDos: [],
+        id: 1
       },
       projectIdCount: 1
     };
@@ -76,6 +79,9 @@ export default {
         return obj.id === this.projectSelected;
       });
       return result[0];
+    },
+    currentProjectIndex() {
+      return this.projects.indexOf(this.currentProject);
     }
   },
 
@@ -100,7 +106,13 @@ export default {
     if (projects) {
       this.projects = projects;
     }
-    this.projectSelected = this.projects[0].id;
+    if (projects) {
+      if (this.projects[0]) {
+        this.projectSelected = this.projects[0].id;
+      } else {
+        this.projectSelected = 0;
+      }
+    }
     this.dataReady = true;
   },
 
@@ -111,7 +123,14 @@ export default {
       console.log("Projects saved");
     },
     addProject() {
-      const newProject = { ...this.projectBoilerplate };
+      // Boilerplate not working
+      const newProject = {
+        title: "",
+        content: "",
+        times: [],
+        toDos: [],
+        id: 1
+      };
       newProject.id = this.projectIdCount;
       this.projectIdCount++;
       this.projects.push(newProject);
@@ -120,8 +139,15 @@ export default {
     },
     deleteProject(index) {
       if (index > -1) {
-        if (this.projectSelected === this.projects[index].id) {
-          this.projectSelected = this.projects[index - 1].id;
+        if (
+          this.projectSelected === this.projects[index].id &&
+          this.projects.length > 1
+        ) {
+          if (index > 0) {
+            this.projectSelected = this.projects[index - 1].id;
+          } else {
+            this.projectSelected = 0;
+          }
         }
         this.projects.splice(index, 1);
       }

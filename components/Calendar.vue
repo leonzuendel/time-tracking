@@ -8,7 +8,7 @@
           :class="isActive(view)"
           @click="switchView(view)"
         >
-          {{ view.title }}
+          <span v-html="view.icon"></span>{{ view.title }}
         </li>
       </ul>
     </div>
@@ -30,8 +30,16 @@ export default {
     return {
       currentViewComponent: calendarVisual,
       views: [
-        { title: "Visual", component: calendarVisual },
-        { title: "List", component: calendarList }
+        {
+          title: "Visual",
+          component: calendarVisual,
+          icon: "<i class='lar la-calendar'></i>"
+        },
+        {
+          title: "List",
+          component: calendarList,
+          icon: "<i class='las la-th-list'></i>"
+        }
       ]
     };
   },

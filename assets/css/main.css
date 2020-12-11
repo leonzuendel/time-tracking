@@ -5,11 +5,28 @@
   --light-font-color: #8d8d8d;
   --main-color: #868686;
   --second-color: #456be9;
+  --red-color: rgb(170, 28, 28);
+  --light-red-color: rgba(170, 28, 28, 0.3);
   --grey-color: #dfdede;
   --bg-color: #f1f1f1;
   --site-padding: 25px;
   --top-bar-height: 45px;
   --tabs-height: 40px;
+}
+
+/* Draggable */
+
+.handle {
+  color: var(--light-font-color);
+  cursor: move;
+}
+
+.ghost {
+  filter: brightness(0.86);
+}
+
+.ghost-childs > div {
+  filter: brightness(0.86);
 }
 
 /* Main */
@@ -33,6 +50,16 @@ h1 {
   font-size: 2em;
   font-weight: bold;
   margin-bottom: 0.4em;
+}
+
+h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: 0.6em;
+}
+
+p {
+  margin-bottom: 1em;
 }
 
 .light {
@@ -87,10 +114,11 @@ h1 {
 #project-nav li {
   cursor: pointer;
   display: grid;
-  grid-template-columns: 6fr 1fr;
+  /* grid-template-columns: 6fr 1fr; */
+  grid-template-columns: 1fr;
   font-weight: bold;
   background-color: var(--grey-color);
-  margin-bottom: 2px;
+  border-bottom: 2px solid var(--bg-color);
 }
 
 #project-nav li .inner {
@@ -139,11 +167,6 @@ li.active .handle {
   color: rgba(255, 255, 255, 0.3);
 }
 
-.handle {
-  color: var(--light-font-color);
-  cursor: move;
-}
-
 .project-tabs ul li:hover {
   filter: brightness(0.96);
 }
@@ -158,6 +181,10 @@ li.active .handle {
   left: 0;
   top: var(--tabs-height);
   margin: 5px;
+}
+
+.view-switch i {
+  margin-right: 0.5em;
 }
 
 .view-switch ul li {
@@ -193,6 +220,7 @@ li.active .handle {
 .add-project {
   width: 100%;
   padding: 30px;
+  padding-left: 42px;
   border: none;
   background-color: var(--grey-color);
   cursor: pointer;
@@ -225,6 +253,7 @@ li.active .handle {
   font-size: 1em;
   height: 100%;
   width: 100%;
+  display: none;
 }
 
 .delete-project i {
@@ -391,6 +420,7 @@ li.active .handle {
   background-color: var(--grey-color);
   filter: brightness(0.9);
   cursor: pointer;
+  height: 100%;
 }
 
 .calendar-list-view .time .delete-time :hover {
@@ -443,4 +473,183 @@ li.active .handle {
 }
 
 .calendar-list-view .time .time-duration {
+}
+
+/* ToDos */
+
+.todos {
+  padding-top: 40px;
+}
+
+.todos .add-todo {
+  position: absolute;
+  left: 0;
+  top: var(--tabs-height);
+  margin: 5px;
+  display: inline-block;
+  margin-right: 3px;
+  padding: 9px 12px 9px 12px;
+  background-color: var(--grey-color);
+  cursor: pointer;
+  border: none;
+  font-size: inherit;
+}
+
+.todos .add-todo i {
+  margin-right: 0.5em;
+}
+
+.todos .add-todo:hover {
+  filter: brightness(0.97);
+}
+
+.todos ul {
+  width: 100%;
+  padding: 5px;
+}
+
+.todos .todo {
+  width: 100%;
+  margin-bottom: 8px;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 0.6fr 3fr 1fr 4fr 2fr;
+  grid-gap: 3px;
+  justify-items: stretch;
+  position: relative;
+}
+
+.todos .todo.done {
+  opacity: 0.4;
+}
+
+.todos .todo .delete-todo {
+  position: absolute;
+  right: 0;
+  background-color: var(--grey-color);
+  filter: brightness(0.9);
+  cursor: pointer;
+  z-index: 1;
+  height: 100%;
+}
+
+.todos .todo .delete-todo :hover {
+  filter: brightness(0.86);
+}
+
+.todos .todo:not(.headline) > div {
+  background-color: var(--grey-color);
+  padding: 15px;
+}
+
+.todos .todo.headline > div {
+  background-color: none;
+  padding: 3px 15px 3px 15px;
+}
+
+.todos .todo input {
+  border: none;
+  background-color: transparent;
+  font-size: inherit;
+  width: 100%;
+}
+
+.todos .todo input:focus {
+  outline: none;
+  border: none;
+}
+
+.todos .todo .todo-title {
+  font-weight: bold;
+}
+
+.todos .todo .todo-description {
+}
+
+.checkbox {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.todos .todo .checkbox {
+  margin: auto;
+}
+
+.todo .handle {
+  vertical-align: 3.8px;
+  margin-right: 2px;
+}
+
+.todos .todo .todo-status {
+  color: var(--light-font-color);
+}
+
+.todos .todo .todo-category {
+  color: var(--light-font-color);
+}
+
+.todos .todo .todo-done {
+  text-align: center;
+}
+
+input[type="checkbox"] {
+  display: none;
+}
+
+input[type="checkbox"] + label::before {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--light-font-color);
+  content: "";
+  margin-right: 5px;
+  border-radius: 0;
+  display: inline-block;
+  margin: auto;
+  cursor: pointer;
+}
+
+input[type="checkbox"]:checked + label::after {
+  content: "✓";
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  margin-right: 5px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  cursor: pointer;
+}
+
+.todos .todo .checkbox input[type="checkbox"]:checked + label::after {
+  bottom: 4px;
+}
+
+/* Settings */
+
+.settings {
+  padding: 30px;
+}
+
+.safe-delete-input {
+  padding: 9px;
+  font-size: inherit;
+  border: 1px solid var(--main-color);
+}
+
+.delete-project-button {
+  padding: 10px;
+  border: none;
+  background-color: var(--light-red-color);
+  cursor: pointer;
+  text-align: center;
+  font-size: 1em;
+}
+
+.delete-project-button:hover {
+  background-color: var(--red-color);
+  color: var(--bg-color);
 }
