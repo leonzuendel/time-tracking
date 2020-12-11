@@ -101,7 +101,12 @@ export default {
   },
 
   async mounted() {
-    this.projectIdCount = await this.$localForage.getItem("ProjectIdCount");
+    const idCount = await this.$localForage.getItem("ProjectIdCount");
+    if (idCount) {
+      this.projectIdCount = idCount;
+    } else {
+      this.projectIdCount = 1;
+    }
     const projects = await this.$localForage.getItem("Projects");
     if (projects) {
       this.projects = projects;
