@@ -70,7 +70,7 @@ export default {
     },
 
     stop() {
-      this.addTime(this.timeBegan, new Date());
+      this.addTime(this.timeBegan, new Date() - this.stoppedDuration);
       this.reset();
     },
 
