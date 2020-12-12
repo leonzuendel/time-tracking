@@ -2,7 +2,18 @@
   <section id="settings">
     <h2>Workspace Integrations</h2>
     <p>Connect this workspace to other applications and services.</p>
-    <h3>ToDoist API Token</h3>
+    <br />
+    <h3>ToDoist</h3>
+    <span class="checkbox-label">Enable Integration</span>
+    <div class="checkbox">
+      <input
+        id="toDoistEnabledCheck"
+        v-model="settings.toDoistEnabled"
+        type="checkbox"
+      /><label for="toDoistEnabledCheck"></label>
+    </div>
+    <br /><br />
+    <h4>ToDoist API Token</h4>
     <input
       v-model="settings.toDoistApiKey"
       type="text"

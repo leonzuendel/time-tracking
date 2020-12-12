@@ -2,7 +2,7 @@
   <section v-if="dataReady" class="settings">
     <h2>Project Integration</h2>
     <h3>Import ToDoist project</h3>
-    <div v-if="settings.toDoistApiKey !== ''">
+    <div v-if="settings.toDoistEnabled">
       <label for="todoist-project-select"></label>
       <select id="todoist-project-select" v-model="selectedToDoistProject">
         <option value="0" disabled>Select Project</option>
@@ -67,7 +67,7 @@ export default {
     }
   },
   async mounted() {
-    if (this.settings.toDoistApiKey !== "") {
+    if (this.settings.toDoistEnabled) {
       await this.getToDoistProjects();
     }
     this.dataReady = true;
