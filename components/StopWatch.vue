@@ -70,7 +70,7 @@ export default {
     },
 
     stop() {
-      this.addTime(this.timeBegan, new Date() - this.stoppedDuration);
+      this.addTime(this.timeBegan, new Date(new Date() - this.stoppedDuration));
       this.reset();
     },
 
@@ -113,6 +113,7 @@ export default {
       const newTime = {
         start,
         end,
+        startDate: start,
         title: "",
         content: "",
         deletable: true,
