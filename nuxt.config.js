@@ -15,7 +15,8 @@ export default {
     "@/assets/css/main.css",
     "quill/dist/quill.core.css",
     "quill/dist/quill.snow.css",
-    "@/assets/fonts/line-awesome/css/line-awesome.min.css"
+    "@/assets/fonts/lineawesome/css/line-awesome.min.css",
+    "@/assets/fonts/fontawesome/font/fontawesome-all.css"
   ],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)

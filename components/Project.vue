@@ -1,5 +1,6 @@
 <template>
   <section class="project">
+    <StopWatch :times="project.times" />
     <div v-if="dataReady" class="project-tabs">
       <ul>
         <draggable v-model="tabs" handle=".handle" ghost-class="ghost">
@@ -29,12 +30,14 @@ import ProjectSettings from "@/components/ProjectSettings";
 import Info from "@/components/Info";
 import Calendar from "@/components/Calendar";
 import ToDos from "@/components/ToDos";
+import StopWatch from "@/components/StopWatch";
 export default {
   components: {
     Calendar,
     ToDos,
     Info,
-    ProjectSettings
+    ProjectSettings,
+    StopWatch
   },
   props: {
     project: Object,
