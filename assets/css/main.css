@@ -3,7 +3,7 @@
 :root {
   --font-color: #0f0f0f;
   --light-font-color: #8d8d8d;
-  --main-color: #868686;
+  --main-color: #646262;
   --second-color: #456be9;
   --red-color: rgb(170, 28, 28);
   --light-red-color: rgba(170, 28, 28, 0.3);
@@ -44,6 +44,15 @@ body {
 
 input {
   background-color: var(--bg-color);
+}
+
+select {
+  background-color: transparent;
+  margin-bottom: 1em;
+  font-size: inherit;
+  padding: 10px;
+  border: none;
+  border: 1px solid var(--main-color);
 }
 
 h1 {
@@ -424,7 +433,7 @@ li.active .handle {
   margin-bottom: 8px;
   box-sizing: border-box;
   display: grid;
-  grid-template-columns: 2fr 3fr 1fr 1fr 1fr 1fr 2fr;
+  grid-template-columns: 1.6fr 2fr 1fr 1fr 1fr 1.4fr;
   grid-gap: 3px;
   justify-items: stretch;
   position: relative;
@@ -472,6 +481,10 @@ li.active .handle {
 .calendar-list-view .time .time-description {
 }
 
+.calendar-list-view .time .time-todo {
+  color: var(--light-font-color);
+}
+
 .calendar-list-view .time .time-start-date {
   color: var(--light-font-color);
 }
@@ -491,6 +504,31 @@ li.active .handle {
 .calendar-list-view .time .time-duration {
 }
 
+.vc-popover-content-wrapper {
+  margin-left: -10px !important;
+}
+
+.add-time {
+  position: absolute;
+  left: 172px;
+  top: var(--tabs-height);
+  margin: 5px;
+  display: inline-block;
+  margin-right: 3px;
+  padding: 9px 12px 8.5px 12px;
+  background-color: var(--grey-color);
+  cursor: pointer;
+  border: none;
+  font-size: inherit;
+}
+
+.add-time i {
+  margin-right: 0.5em;
+}
+
+.add-time:hover {
+  filter: brightness(0.97);
+}
 /* ToDos */
 
 .todos {
@@ -504,7 +542,7 @@ li.active .handle {
   margin: 5px;
   display: inline-block;
   margin-right: 3px;
-  padding: 9px 12px 9px 12px;
+  padding: 9px 12px 8.5px 12px;
   background-color: var(--grey-color);
   cursor: pointer;
   border: none;
@@ -529,7 +567,7 @@ li.active .handle {
   margin-bottom: 8px;
   box-sizing: border-box;
   display: grid;
-  grid-template-columns: 80px 3fr 1fr 4fr 2fr;
+  grid-template-columns: 80px 2.6fr 0.8fr 3fr 1fr;
   grid-gap: 3px;
   justify-items: stretch;
   position: relative;
@@ -648,6 +686,20 @@ input[type="checkbox"]:checked + label::after {
 
 .settings {
   padding: 30px;
+}
+
+.big-button {
+  padding: 12px;
+  border: none;
+  background-color: var(--grey-color);
+  cursor: pointer;
+  text-align: center;
+  font-size: 1em;
+  filter: brightness(0.85);
+}
+
+.big-button:hover {
+  filter: brightness(0.75);
 }
 
 .safe-delete-input,

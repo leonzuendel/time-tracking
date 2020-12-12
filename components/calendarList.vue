@@ -1,13 +1,15 @@
 <template>
   <div class="calendar-list-view">
+    <button class="add-time" @click="addTime()">
+      <i class="las la-plus-circle"></i>Add Entry
+    </button>
     <ul>
       <li class="time headline">
         <div>Title</div>
         <div>Description</div>
-        <div>Start Date</div>
-        <div>Start Time</div>
-        <div>End Date</div>
-        <div>End Time</div>
+        <div>ToDo</div>
+        <div>Start Date/Time</div>
+        <div>End Date/Time</div>
         <div>
           Duration <span class="light">({{ totalDuration }})</span>
         </div>
@@ -26,23 +28,37 @@
             placeholder="No Description"
           />
         </div>
-
+        <div class="time-todo">None</div>
         <div v-if="time.start" class="time-start-date">
-          {{ time.start.toLocaleDateString() }}
+          <client-only
+            ><date-picker
+              v-model="time.start"
+              mode="dateTime"
+              color="blue"
+              is24hr
+            >
+              <template v-slot="{ inputValue, inputEvents }">
+                <input :value="inputValue" v-on="inputEvents" />
+              </template>
+            </date-picker>
+          </client-only>
         </div>
         <div v-else class="time-start-date"></div>
-        <div v-if="time.start" class="time-start-time">
-          {{ time.start.toLocaleTimeString() }}
-        </div>
-        <div v-else class="time-start-time"></div>
         <div v-if="time.end" class="time-end-date">
-          {{ time.end.toLocaleDateString() }}
+          <client-only
+            ><date-picker
+              v-model="time.end"
+              mode="dateTime"
+              color="blue"
+              is24hr
+            >
+              <template v-slot="{ inputValue, inputEvents }">
+                <input :value="inputValue" v-on="inputEvents" />
+              </template>
+            </date-picker>
+          </client-only>
         </div>
         <div v-else class="time-end-date"></div>
-        <div v-if="time.end" class="time-end-time">
-          {{ time.end.toLocaleTimeString() }}
-        </div>
-        <div v-else class="time-end-time"></div>
         <div class="time-duration">{{ getDuration(time.start, time.end) }}</div>
       </li>
     </ul>
@@ -63,6 +79,9 @@ export default {
       });
       return this.timeConversion(duration);
     }
+  },
+  async mounted() {
+    this.timeIdCount = await this.$localForage.getItem("TimeIdCount");
   },
   methods: {
     getDuration(startDate, endDate) {
@@ -97,6 +116,31 @@ export default {
       const events = this.$refs.calendar.mutableEvents;
       this.project.times = events;
       this.$emit("update:project", this.project);
+    },
+    async addTime() {
+      // Boilerplate not working
+      const newTime = {
+        start: new Date(),
+        end: new Date(),
+        title: "",
+        content: "",
+        deletable: true,
+        deleting: false,
+        titleEditable: true,
+        resizable: true,
+        resizing: false,
+        draggable: true,
+        dragging: false,
+        draggingStatic: false,
+        focused: false,
+        class: "",
+        split: null,
+        id: this.timeIdCount
+      };
+      newTime.id = this.timeIdCount;
+      this.timeIdCount++;
+      this.project.times.unshift(newTime);
+      await this.$localForage.setItem("TimeIdCount", this.timeIdCount);
     }
   }
 };

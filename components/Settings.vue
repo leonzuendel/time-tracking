@@ -2,9 +2,9 @@
   <section id="settings">
     <h2>Workspace Integrations</h2>
     <p>Connect this workspace to other applications and services.</p>
-    <h3>ToDoist Api Token</h3>
+    <h3>ToDoist API Token</h3>
     <input
-      v-model="settings.ToDoistApiKey"
+      v-model="settings.toDoistApiKey"
       type="text"
       placeholder="e.g. d5e889n4knm865nbn324jb2jb3b44bjbaeedc6"
       class="form-input"

@@ -22,7 +22,7 @@
           class="todo"
           :class="{ done: toDo.done }"
         >
-          <div class="delete-todo" @click="deleteToDo(index)">
+          <div class="delete-todo" @click="deleteToDo(index, toDo.id)">
             <i class="lar la-trash-alt"></i>
           </div>
           <div class="todo-done">
@@ -59,9 +59,13 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   props: {
     project: Object
+  },
+  computed: {
+    ...mapState(["settings"])
   },
   data() {
     return {
@@ -72,10 +76,12 @@ export default {
         category: 0,
         status: 0,
         done: false,
-        id: 1
+        id: 1,
+        imported: false,
+        importedFrom: ""
       },
       status: ["ToDo", "Done"],
-      categories: ["Uncategorized"]
+      categories: ["Uncategorized", "ToDoist"]
     };
   },
   async mounted() {
@@ -100,7 +106,9 @@ export default {
         category: 0,
         status: 0,
         done: false,
-        id: 1
+        id: 1,
+        imported: false,
+        importedFrom: ""
       };
       newToDo.id = this.toDoIdCount;
       this.toDoIdCount++;

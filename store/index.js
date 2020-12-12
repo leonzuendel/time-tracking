@@ -1,7 +1,7 @@
 // State
 export const state = () => ({
   settings: {
-    ToDoistApiKey: ""
+    toDoistApiKey: ""
   }
 });
 

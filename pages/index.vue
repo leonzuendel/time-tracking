@@ -69,7 +69,8 @@ export default {
         toDos: [],
         id: 1,
         settings: {
-          ToDoistProject: ""
+          ToDoistProject: "",
+          syncedToDoistProject: undefined
         }
       },
       projectIdCount: 1
