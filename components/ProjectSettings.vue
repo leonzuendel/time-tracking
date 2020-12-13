@@ -64,6 +64,12 @@ export default {
         this.getToDoistProjects();
       },
       deep: true
+    },
+    "settings.toDoistEnabled": {
+      handler(val) {
+        this.getToDoistProjects();
+      },
+      deep: true
     }
   },
   async mounted() {

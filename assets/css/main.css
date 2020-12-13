@@ -194,17 +194,20 @@ p {
   background-color: var(--grey-color);
 }
 
-li.active .handle {
+li:active .handle {
   color: rgba(255, 255, 255, 0.3);
 }
 
-.project-tabs ul li:hover {
+.project-tabs ul li:not(.active):hover {
   filter: brightness(0.96);
 }
 
 .project-tabs ul li.active {
-  background-color: var(--main-color);
-  color: white;
+  background-color: var(--bg-color);
+}
+
+.project-tabs ul li.active .handle {
+  color: var(--light-font-color);
 }
 
 .view-switch {
@@ -404,6 +407,14 @@ li.active .handle {
 
 .calendar.times {
   height: calc(100vh - var(--tabs-height) - var(--top-bar-height));
+}
+
+.vuecal {
+  box-shadow: none !important;
+}
+
+.vuecal__menu {
+  background-color: var(--bg-color) !important;
 }
 
 .vuecal__event {
