@@ -43,6 +43,31 @@ body {
   -webkit-app-region: drag;
 }
 
+button.button {
+  padding: 12px;
+  border: none;
+  border-radius: 0;
+  background-color: var(--grey-color);
+  cursor: pointer;
+  text-align: center;
+  font-size: 1em;
+  filter: brightness(0.85);
+}
+
+button.button.block {
+  display: block;
+}
+
+button.button:hover {
+  filter: brightness(0.75);
+}
+
+button.button a {
+  vertical-align: top;
+  line-height: 1;
+  color: inherit;
+}
+
 input {
   background-color: var(--bg-color);
 }

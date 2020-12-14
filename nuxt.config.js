@@ -50,12 +50,48 @@ export default {
     // https://go.nuxtjs.dev/axios
     "@nuxtjs/axios",
     // https://go.nuxtjs.dev/pwa
-    "@nuxtjs/pwa"
+    "@nuxtjs/pwa",
+
+    "@nuxtjs/auth" // enables Nuxt Auth module
   ],
 
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          // these are the API endpoints we created in Express
+          login: {
+            url: "/api/users/login",
+            method: "post",
+            propertyName: "token"
+          },
+          logout: true,
+          user: {
+            url: "/api/users/user",
+            method: "get",
+            propertyName: "user"
+          }
+        },
+        tokenRequired: true,
+        tokenType: "Bearer"
+      }
+    },
+    redirect: {
+      login: "/user/login", // User will be redirected to this path if login is required
+      logout: "/user/login", // User will be redirected to this path if after logout, current route is protected
+      home: "/" // User will be redirect to this path after login if accessed login page directly
+    },
+    rewriteRedirects: true
+  },
+
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
-  axios: {},
+  axios: {
+    baseURL: ""
+  },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
-  build: {}
+  build: {},
+
+  // API
+  serverMiddleware: ["~/api/index.js"]
 };

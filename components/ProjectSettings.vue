@@ -30,7 +30,7 @@
       v-if="project.title !== ''"
       v-model="safeDeleteInput"
       type="text"
-      placeholder="Project Title"
+      :placeholder="project.title"
       class="safe-delete-input"
     />
     <button class="delete-project-button" @click="deleteProject(index)">

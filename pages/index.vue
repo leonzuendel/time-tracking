@@ -51,6 +51,7 @@
 import Project from "@/components/Project";
 
 export default {
+  middleware: "auth",
   name: "Projects",
 
   components: {

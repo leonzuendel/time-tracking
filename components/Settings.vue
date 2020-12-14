@@ -1,8 +1,18 @@
 <template>
   <section id="settings">
+    <h2>My Account</h2>
+
+    <h4>{{ this.$auth.user.full_name }}</h4>
+
+    <strong>Email:</strong> {{ this.$auth.user.email }} <br /><br />
+
+    <button class="button block">
+      <nuxt-link to="/user/logout">Logout</nuxt-link>
+    </button>
+    <br />
+
     <h2>Workspace Integrations</h2>
     <p>Connect this workspace to other applications and services.</p>
-    <br />
     <h3>ToDoist</h3>
     <span class="checkbox-label">Enable Integration</span>
     <div class="checkbox">
@@ -26,6 +36,7 @@
 <script>
 import { mapState } from "vuex";
 export default {
+  middleware: "auth",
   components: {},
   computed: {
     ...mapState(["settings"])
