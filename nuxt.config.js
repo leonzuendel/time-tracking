@@ -93,5 +93,5 @@ export default {
   build: {},
 
   // API
-  serverMiddleware: ["~/api/index.js"]
+  serverMiddleware: ["@/api/index.js"]
 };
