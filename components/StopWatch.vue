@@ -33,12 +33,7 @@ export default {
       timeIdCount: 1
     };
   },
-  async mounted() {
-    const timeIDCount = await this.$localForage.getItem("TimeIdCount");
-    if (timeIDCount) {
-      this.timeIdCount = await this.$localForage.getItem("TimeIdCount");
-    }
-  },
+  async mounted() {},
   methods: {
     startStop() {
       if (!this.running) {
@@ -127,12 +122,10 @@ export default {
         focused: false,
         class: "",
         split: null,
-        id: this.timeIdCount
+        user: this.$auth.user._id,
+        project: this.project._id
       };
-      newTime.id = this.timeIdCount;
-      this.timeIdCount++;
-      this.times.unshift(newTime);
-      await this.$localForage.setItem("TimeIdCount", this.timeIdCount);
+      await this.$store.dispatch("createTime", newTime);
     }
   }
 };
