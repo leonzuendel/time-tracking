@@ -54,6 +54,7 @@
 import Project from "@/components/Project";
 import { mapState } from "vuex";
 export default {
+  middleware: "auth",
   name: "Projects",
 
   components: {
