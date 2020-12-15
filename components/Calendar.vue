@@ -48,6 +48,14 @@ export default {
       ]
     };
   },
+  watch: {
+    "$store.state.times": {
+      handler(val) {
+        this.$store.dispatch("updateTimes", this.$store.state.times);
+      },
+      deep: true
+    }
+  },
   computed: {
     ...mapState(["times"]),
     projectTimes() {

@@ -83,10 +83,31 @@ module.exports.update = [
       }
 
       // initialize record
+      time._eid = req.body._eid ? req.body._eid : time._eid;
+      time.start = req.body.start ? req.body.start : time.start;
+      time.startTimeMinutes = req.body.startTimeMinutes
+        ? req.body.startTimeMinutes
+        : time.startTimeMinutes;
+      time.end = req.body.end ? req.body.end : time.end;
+      time.endTimeMinutes = req.body.endTimeMinutes
+        ? req.body.endTimeMinutes
+        : time.endTimeMinutes;
       time.title = req.body.title ? req.body.title : time.title;
       time.content = req.body.content ? req.body.content : time.content;
-      time.settings = req.body.settings ? req.body.settings : time.settings;
+      time.background = req.body.background
+        ? req.body.background
+        : time.background;
+      time.allDay = req.body.allDay ? req.body.allDay : time.allDay;
+      time.daysCount = req.body.daysCount ? req.body.daysCount : time.daysCount;
+      time.deletable = req.body.deletable ? req.body.deletable : time.deletable;
+      time.titleEditable = req.body.titleEditable
+        ? req.body.titleEditable
+        : time.titleEditable;
+      time.resizable = req.body.resizable ? req.body.resizable : time.resizable;
+      time.draggable = req.body.draggable ? req.body.draggable : time.draggable;
+      time.class = req.body.class ? req.body.class : time.class;
       time.user = req.body.user ? req.body.user : time.user;
+      time.project = req.body.project ? req.body.project : time.project;
 
       // save record
       time.save(function (err, time) {

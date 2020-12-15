@@ -12,17 +12,17 @@
         <div>Category</div>
       </li>
       <draggable
-        v-model="project.toDos"
+        v-model="projectToDos"
         handle=".handle"
         ghost-class="ghost-childs"
       >
         <li
-          v-for="(toDo, index) in project.toDos"
+          v-for="(toDo, index) in projectToDos"
           :key="toDo.id"
           class="todo"
           :class="{ done: toDo.done }"
         >
-          <div class="delete-todo" @click="deleteToDo(index, toDo.id)">
+          <div class="delete-todo" @click="deleteToDo(index, toDo)">
             <i class="lar la-trash-alt"></i>
           </div>
           <div class="todo-done">
@@ -65,7 +65,13 @@ export default {
     project: Object
   },
   computed: {
-    ...mapState(["settings"])
+    ...mapState(["settings", "toDos"]),
+    projectToDos() {
+      const result = this.toDos.filter(
+        (toDo) => toDo.project === this.project._id
+      );
+      return result;
+    }
   },
   data() {
     return {
@@ -84,19 +90,20 @@ export default {
       categories: ["Uncategorized", "ToDoist"]
     };
   },
+  watch: {
+    "$store.state.toDos": {
+      handler(val) {
+        this.$store.dispatch("updateToDos", this.$store.state.toDos);
+      },
+      deep: true
+    }
+  },
   async mounted() {
     this.toDoIdCount = await this.$localForage.getItem("ToDoIdCount");
   },
   methods: {
     checkToDo(toDo, index) {
-      if (toDo.done) {
-        toDo.status = 0;
-        this.project.toDos.splice(index, 1);
-        this.project.toDos.unshift(toDo);
-      } else {
-        toDo.status = 1;
-        this.project.toDos.push(this.project.toDos.splice(index, 1)[0]);
-      }
+      // this.$store.dispatch("checkToDo", { toDo, index });
     },
     async addToDo() {
       // Boilerplate not working
@@ -106,18 +113,19 @@ export default {
         category: 0,
         status: 0,
         done: false,
-        id: 1,
         imported: false,
-        importedFrom: ""
+        importedFrom: "",
+        user: this.$auth.user._id,
+        project: this.project._id
       };
-      newToDo.id = this.toDoIdCount;
-      this.toDoIdCount++;
-      this.project.toDos.unshift(newToDo);
-      await this.$localForage.setItem("ToDoIdCount", this.toDoIdCount);
+      await this.$store.dispatch("createToDo", newToDo);
     },
-    deleteToDo(index) {
+    deleteToDo(index, toDo) {
       if (index > -1) {
-        this.project.toDos.splice(index, 1);
+        this.$store.dispatch("deleteToDo", {
+          toDoId: toDo._id,
+          index
+        });
       }
     }
   }

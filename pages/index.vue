@@ -110,6 +110,7 @@ export default {
     await this.$store.dispatch("getSettings");
     await this.$store.dispatch("getProjects");
     await this.$store.dispatch("getTimes");
+    await this.$store.dispatch("getToDos");
     // const projects = await this.$localForage.getItem("Projects");
     if (this.projects) {
       if (this.projects[0]) {
