@@ -14,8 +14,8 @@
           Duration <span class="light">({{ totalDuration }})</span>
         </div>
       </li>
-      <li v-for="(time, index) in project.times" :key="index" class="time">
-        <div class="delete-time" @click="deleteTime(index)">
+      <li v-for="(time, index) in projectTimes" :key="index" class="time">
+        <div class="delete-time" @click="deleteTime(index, time)">
           <i class="lar la-trash-alt"></i>
         </div>
         <div class="time-title">
@@ -69,12 +69,13 @@
 export default {
   components: {},
   props: {
-    project: Object
+    project: Object,
+    projectTimes: Array
   },
   computed: {
     totalDuration() {
       let duration = 0;
-      this.project.times.forEach((time) => {
+      this.projectTimes.forEach((time) => {
         duration += Math.abs(time.end - time.start);
       });
       return this.timeConversion(duration);
@@ -91,9 +92,12 @@ export default {
       const duration = Math.abs(endDate - startDate);
       return this.timeConversion(duration);
     },
-    deleteTime(index) {
+    deleteTime(index, time) {
       if (index > -1) {
-        this.project.times.splice(index, 1);
+        this.$store.dispatch("deleteTime", {
+          timeId: time._id,
+          index
+        });
       }
     },
     timeConversion(millisec) {
@@ -117,7 +121,7 @@ export default {
     },
     updateEvents() {
       const events = this.$refs.calendar.mutableEvents;
-      this.project.times = events;
+      this.projectTimes = events;
       this.$emit("update:project", this.project);
     },
     async addTime() {
@@ -138,12 +142,10 @@ export default {
         focused: false,
         class: "",
         split: null,
-        id: this.timeIdCount
+        user: this.$auth.user._id,
+        project: this.project._id
       };
-      newTime.id = this.timeIdCount;
-      this.timeIdCount++;
-      this.project.times.unshift(newTime);
-      await this.$localForage.setItem("TimeIdCount", this.timeIdCount);
+      await this.$store.dispatch("createTime", newTime);
     }
   }
 };

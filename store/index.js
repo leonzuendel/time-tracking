@@ -1,6 +1,7 @@
 // State
 export const state = () => ({
   projects: [],
+  times: [],
   projectSelected: 1,
   settings: {
     toDoistApiKey: "",
@@ -9,16 +10,22 @@ export const state = () => ({
 });
 
 export const actions = {
-  async changeSettings({ commit }, settings) {
-    await commit("SET_SETTINGS", settings);
-    await this.$localForage.setItem("Settings", settings);
-    console.log("Settings saved");
-  },
   async getProjects({ commit }) {
     await this.$axios.$get("/api/projects/user/" + this.$auth.user._id).then(
       function (res) {
         commit("SET_PROJECTS", res);
         console.log("Projects loaded from DB");
+      },
+      function (err) {
+        console.log(err);
+      }
+    );
+  },
+  async getTimes({ commit }) {
+    await this.$axios.$get("/api/times/user/" + this.$auth.user._id).then(
+      function (res) {
+        commit("SET_TIMES", res);
+        console.log("Times loaded from DB");
       },
       function (err) {
         console.log(err);
@@ -32,6 +39,19 @@ export const actions = {
         createdProject._id = res._id;
         commit("CREATE_PROJECT", createdProject);
         console.log("Project created in DB");
+      },
+      function (err) {
+        console.log(err);
+      }
+    );
+  },
+  async createTime({ commit }, time) {
+    await this.$axios.$post("/api/times", time).then(
+      function (res) {
+        const createdTime = time;
+        createdTime._id = res._id;
+        commit("CREATE_TIME", createdTime);
+        console.log("Time created in DB");
       },
       function (err) {
         console.log(err);
@@ -62,15 +82,39 @@ export const actions = {
       }
     );
   },
+  async deleteTime({ commit }, data) {
+    await this.$axios.$delete("/api/times/" + data.timeId).then(
+      function (res) {
+        commit("DELETE_TIME", data.index);
+        console.log("Time deleted in DB");
+      },
+      function (err) {
+        console.log(err);
+      }
+    );
+  },
   selectProject({ commit }, projectId) {
     commit("SELECT_PROJECT", projectId);
+  },
+  async getSettings({ commit }) {
+    await this.$axios
+      .$get("/api/users/" + this.$auth.user._id + "/settings")
+      .then(
+        function (res) {
+          commit("SET_SETTINGS", res);
+        },
+        function (err) {
+          console.log(err);
+        }
+      );
   },
   async updateSettings({ commit }, settings) {
     await this.$axios
       .$put("/api/users/" + this.$auth.user._id, { settings })
       .then(
         function (res) {
-          commit("UPDATE_SETTINGS", settings);
+          commit("SET_SETTINGS", settings);
+          this.$auth.user.settings = settings;
           console.log("Project updated in DB");
         },
         function (err) {
@@ -87,9 +131,15 @@ export const mutations = {
   SET_PROJECTS(state, payload) {
     state.projects = payload;
   },
+  SET_TIMES(state, payload) {
+    state.times = payload;
+  },
   CREATE_PROJECT(state, payload) {
     state.projects.push(payload);
     state.projectSelected = payload._id;
+  },
+  CREATE_TIME(state, payload) {
+    state.times.push(payload);
   },
   UPDATE_PROJECT(state, payload) {
     state.projects[payload.index] = payload.project;
@@ -111,11 +161,11 @@ export const mutations = {
     }
     state.projects.splice(payload, 1);
   },
+  DELETE_TIME(state, payload) {
+    state.times.splice(payload, 1);
+  },
   SELECT_PROJECT(state, payload) {
     state.projectSelected = payload;
-  },
-  UPDATE_SETTINGS(state, payload) {
-    state.settings = payload;
   }
 };
 

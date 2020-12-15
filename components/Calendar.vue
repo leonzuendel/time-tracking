@@ -13,12 +13,17 @@
       </ul>
     </div>
     <client-only>
-      <component :is="currentViewComponent" :project.sync="project"></component>
+      <component
+        :is="currentViewComponent"
+        :project.sync="project"
+        :project-times="projectTimes"
+      ></component>
     </client-only>
   </section>
 </template>
 
 <script>
+import { mapState } from "vuex";
 import calendarVisual from "@/components/calendarVisual";
 import calendarList from "@/components/calendarList";
 export default {
@@ -42,6 +47,15 @@ export default {
         }
       ]
     };
+  },
+  computed: {
+    ...mapState(["times"]),
+    projectTimes() {
+      const result = this.times.filter(
+        (time) => time.project === this.project._id
+      );
+      return result;
+    }
   },
   methods: {
     switchView(view) {

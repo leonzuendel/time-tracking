@@ -15,6 +15,13 @@ router.post("/users/login", usersController.login);
 // Get User
 router.get("/users/user", usersController.user);
 
+// Get User Settings
+router.get(
+  "/users/:id/settings",
+  config.isAuthenticated,
+  usersController.showSettings
+);
+
 // Update User
 router.put("/users/:id", config.isAuthenticated, usersController.update);
 

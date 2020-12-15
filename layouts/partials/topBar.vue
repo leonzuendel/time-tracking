@@ -1,7 +1,8 @@
 <template>
   <div id="top-bar">
     <div class="app-title">
-      <i class="las la-stopwatch"></i><b>TimeTracking</b>
+      <i class="las la-stopwatch"></i
+      ><b v-if="$auth.user">{{ $auth.user.full_name }}</b>
     </div>
     <button class="settings-button" @click="openSettings()">
       <i class="las la-cog"></i>Settiings

@@ -92,10 +92,10 @@ export default {
   },
 
   watch: {
-    currentProject: {
+    projects: {
       handler(val) {
         this.$store.dispatch("updateProject", {
-          project: val,
+          project: this.currentProject,
           index: this.currentProjectIndex
         });
       },
@@ -107,7 +107,9 @@ export default {
     if (!this.$auth.user) {
       this.$router.push("/user/login");
     }
+    await this.$store.dispatch("getSettings");
     await this.$store.dispatch("getProjects");
+    await this.$store.dispatch("getTimes");
     // const projects = await this.$localForage.getItem("Projects");
     if (this.projects) {
       if (this.projects[0]) {

@@ -30,7 +30,11 @@ module.exports.register = [
     const user = new User({
       full_name: req.body.full_name,
       email: req.body.email,
-      password: req.body.password
+      password: req.body.password,
+      settings: {
+        toDoistApiKey: "",
+        toDoistEnabled: false
+      }
     });
 
     // encrypt password
@@ -93,10 +97,16 @@ module.exports.login = [
               user: {
                 _id: user._id,
                 email: user.email,
-                full_name: user.full_name
+                full_name: user.full_name,
+                settings: user.settings
               },
               token: jwt.sign(
-                { _id: user._id, email: user.email, full_name: user.full_name },
+                {
+                  _id: user._id,
+                  email: user.email,
+                  full_name: user.full_name,
+                  settings: user.settings
+                },
                 config.authSecret
               ) // generate JWT token here
             });
@@ -182,4 +192,24 @@ module.exports.user = function (req, res) {
   } else {
     return res.status(401).json({ message: "unauthorized" });
   }
+};
+
+// Get Settings
+
+// Get one
+module.exports.showSettings = function (req, res) {
+  const id = req.params.id;
+  User.findOne({ _id: id }, function (err, user) {
+    if (err) {
+      return res.status(500).json({
+        message: "Error getting record."
+      });
+    }
+    if (!user) {
+      return res.status(404).json({
+        message: "No such record"
+      });
+    }
+    return res.json(user.settings);
+  });
 };

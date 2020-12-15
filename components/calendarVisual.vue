@@ -17,7 +17,7 @@
       delete: false,
       create: true
     }"
-    :events="project.times"
+    :events="projectTimes"
     @view-change="updateEvents()"
     @event-change="updateEvents()"
     @event-deleted="updateEvents()"
@@ -33,15 +33,16 @@ import "vue-cal/dist/drag-and-drop.js";
 export default {
   components: { VueCal },
   props: {
-    project: Object
+    project: Object,
+    projectTimes: Array
   },
   methods: {
     updateEvents() {
       const events = this.$refs.calendar.mutableEvents;
       if (events) {
-        this.project.times = events;
+        this.projectTimes = events;
       } else {
-        this.project.times = [];
+        this.projectTimes = [];
       }
       this.$emit("update:project", this.project);
     }
