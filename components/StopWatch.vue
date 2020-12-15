@@ -18,7 +18,7 @@
 <script>
 export default {
   props: {
-    times: Array
+    project: Array
   },
   data() {
     return {

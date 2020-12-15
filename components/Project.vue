@@ -1,6 +1,6 @@
 <template>
   <section class="project">
-    <StopWatch :times="project.times" />
+    <StopWatch :project="project" />
     <div v-if="dataReady" class="project-tabs">
       <ul>
         <draggable v-model="tabs" handle=".handle" ghost-class="ghost">
