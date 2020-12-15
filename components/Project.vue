@@ -121,8 +121,8 @@ export default {
       await this.$localForage.setItem("TabsOrder", this.tabs);
       console.log("Tabs Order saved");
     },
-    deleteProject(index) {
-      this.$parent.deleteProject(index);
+    deleteProject(index, project) {
+      this.$parent.deleteProject(index, project);
     }
   }
 };

@@ -8,8 +8,8 @@
         <option value="0" disabled>Select Project</option>
         <option
           v-for="project in toDoistProjects"
-          :key="project.id"
-          :value="project.id"
+          :key="project._id"
+          :value="project._id"
         >
           {{ project.name }}
         </option>
@@ -33,7 +33,10 @@
       :placeholder="project.title"
       class="safe-delete-input"
     />
-    <button class="delete-project-button" @click="deleteProject(index)">
+    <button
+      class="delete-project-button"
+      @click="deleteProject(index, project)"
+    >
       <i class="lar la-trash-alt"></i> Delete Project
     </button>
   </section>
@@ -79,9 +82,11 @@ export default {
     this.dataReady = true;
   },
   methods: {
-    deleteProject(index) {
+    deleteProject(index, project) {
+      console.log(project);
       if (this.safeDeleteInput === this.project.title) {
-        this.$parent.deleteProject(index);
+        this.$parent.deleteProject(index, project);
+        this.safeDeleteInput = "";
       }
     },
     async getToDoistProjects() {

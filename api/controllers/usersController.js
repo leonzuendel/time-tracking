@@ -111,6 +111,58 @@ module.exports.login = [
   }
 ];
 
+// Update
+module.exports.update = [
+  function (req, res) {
+    const id = req.params.id;
+    User.findOne({ _id: id }, function (err, user) {
+      if (err) {
+        return res.status(500).json({
+          message: "Error saving user",
+          error: err
+        });
+      }
+      if (!user) {
+        return res.status(404).json({
+          message: "No such user"
+        });
+      }
+
+      // initialize record
+      user.full_name = req.body.full_name ? req.body.full_name : user.full_name;
+      user.email = req.body.email ? req.body.email : user.email;
+      user.password = req.body.password ? req.body.password : user.password;
+
+      if (user.settings) {
+        user.settings = req.body.settings ? req.body.settings : user.settings;
+      } else {
+        user.settings = req.body.settings;
+      }
+
+      if (req.body.password) {
+        // encrypt password
+        const salt = bcrypt.genSaltSync(10);
+        const hash = bcrypt.hashSync(user.password, salt);
+        user.password = hash;
+      }
+      // save record
+      user.save(function (err, user) {
+        if (err) {
+          return res.status(500).json({
+            message: "Error getting user."
+          });
+        }
+        if (!user) {
+          return res.status(404).json({
+            message: "No such user"
+          });
+        }
+        return res.json(user);
+      });
+    });
+  }
+];
+
 // Get User
 module.exports.user = function (req, res) {
   const token = req.headers.authorization;

@@ -5,24 +5,27 @@
         <draggable v-model="projects" handle=".handle" ghost-class="ghost">
           <li
             v-for="(project, index) in projects"
-            :key="project.id"
+            :key="project._id"
             :ref="'project-li-' + index"
-            :class="isActive(project.id)"
+            :class="isActive(project._id)"
           >
             <div
               v-if="project.title !== ''"
               class="inner"
-              @click="selectProject(project.id)"
+              @click="selectProject(project._id)"
             >
               <i class="las la-braille handle"></i><i class="lar la-folder"></i
               >{{ project.title }}
             </div>
-            <div v-else class="inner" @click="selectProject(project.id)">
+            <div v-else class="inner" @click="selectProject(project._id)">
               <i class="las la-braille handle"></i
               ><i class="lar la-folder"></i>Untitled
             </div>
             <div>
-              <button class="delete-project" @click="deleteProject(index)">
+              <button
+                class="delete-project"
+                @click="deleteProject(index, project)"
+              >
                 <i class="lar la-trash-alt"></i>
               </button>
             </div>
@@ -49,9 +52,8 @@
 
 <script>
 import Project from "@/components/Project";
-
+import { mapState } from "vuex";
 export default {
-  middleware: "auth",
   name: "Projects",
 
   components: {
@@ -60,8 +62,6 @@ export default {
 
   data() {
     return {
-      projectSelected: 1,
-      projects: [],
       dataReady: false,
       projectBoilerplate: {
         title: "",
@@ -79,9 +79,10 @@ export default {
   },
 
   computed: {
+    ...mapState(["projects", "projectSelected"]),
     currentProject() {
       const result = this.projects.filter((obj) => {
-        return obj.id === this.projectSelected;
+        return obj._id === this.projectSelected;
       });
       return result[0];
     },
@@ -93,84 +94,54 @@ export default {
   watch: {
     currentProject: {
       handler(val) {
-        this.saveProjects();
-      },
-      deep: true
-    },
-    projects: {
-      handler(val) {
-        this.saveProjects();
+        this.$store.dispatch("updateProject", {
+          project: val,
+          index: this.currentProjectIndex
+        });
       },
       deep: true
     }
   },
 
   async mounted() {
-    const idCount = await this.$localForage.getItem("ProjectIdCount");
-    if (idCount) {
-      this.projectIdCount = idCount;
-    } else {
-      this.projectIdCount = 1;
+    if (!this.$auth.user) {
+      this.$router.push("/user/login");
     }
-    const projects = await this.$localForage.getItem("Projects");
-    if (projects) {
-      this.projects = projects;
-    }
-    if (projects) {
+    await this.$store.dispatch("getProjects");
+    // const projects = await this.$localForage.getItem("Projects");
+    if (this.projects) {
       if (this.projects[0]) {
-        this.projectSelected = this.projects[0].id;
-      } else {
-        this.projectSelected = 0;
+        this.$store.dispatch("selectProject", this.projects[0]._id);
       }
     }
     this.dataReady = true;
   },
 
   methods: {
-    async saveProjects() {
-      await this.$localForage.setItem("ProjectIdCount", this.projectIdCount);
-      await this.$localForage.setItem("Projects", this.projects);
-      console.log("Projects saved");
-    },
-    addProject() {
+    async addProject() {
       // Boilerplate not working
       const newProject = {
         title: "",
         content: "",
-        times: [],
-        toDos: [],
-        id: 1,
-        settings: {
-          ToDoistProject: ""
-        }
+        user: this.$auth.user._id,
+        settings: {}
       };
-      newProject.id = this.projectIdCount;
-      this.projectIdCount++;
-      this.projects.push(newProject);
-      this.projectSelected = this.projectIdCount - 1;
-      this.saveProjects();
+      // this.saveProjects();
+      await this.$store.dispatch("createProject", newProject);
     },
-    deleteProject(index) {
-      if (index > -1) {
-        if (
-          this.projectSelected === this.projects[index].id &&
-          this.projects.length > 1
-        ) {
-          if (index > 0) {
-            this.projectSelected = this.projects[index - 1].id;
-          } else if (this.projects.length > 1) {
-            this.projectSelected = this.projects[1].id;
-          } else {
-            this.projectSelected = 0;
-          }
-        }
-        this.projects.splice(index, 1);
-      }
-      this.saveProjects();
+
+    deleteProject(index, project) {
+      this.$store.dispatch("deleteProject", {
+        projectId: project._id,
+        index
+      });
+      // this.projects.splice(index, 1);
     },
+
     selectProject(id) {
-      this.projectSelected = id;
+      this.$store.dispatch("selectProject", id);
     },
+
     isActive(id) {
       if (id === this.projectSelected) {
         return "active";

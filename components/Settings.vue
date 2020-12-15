@@ -46,19 +46,16 @@ export default {
     return {};
   },
   watch: {
-    settings: {
+    "$store.state.settings": {
       handler(val) {
-        this.changeSettings();
+        this.$store.dispatch("updateSettings", this.$store.state.settings);
       },
       deep: true
     }
   },
+
   mounted() {},
-  methods: {
-    changeSettings() {
-      this.$store.dispatch("changeSettings", this.settings);
-    }
-  }
+  methods: {}
 };
 </script>
 
