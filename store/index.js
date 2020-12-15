@@ -11,6 +11,12 @@ export const state = () => ({
 });
 
 export const actions = {
+  async loadData({ dispatch }) {
+    await dispatch("getSettings");
+    await dispatch("getProjects");
+    await dispatch("getTimes");
+    await dispatch("getToDos");
+  },
   async getProjects({ commit }) {
     await this.$axios.$get("/api/projects/user/" + this.$auth.user._id).then(
       function (res) {

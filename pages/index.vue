@@ -107,10 +107,7 @@ export default {
     if (!this.$auth.user) {
       this.$router.push("/user/login");
     }
-    await this.$store.dispatch("getSettings");
-    await this.$store.dispatch("getProjects");
-    await this.$store.dispatch("getTimes");
-    await this.$store.dispatch("getToDos");
+    await this.$store.dispatch("loadData");
     // const projects = await this.$localForage.getItem("Projects");
     if (this.projects) {
       if (this.projects[0]) {
@@ -118,6 +115,10 @@ export default {
       }
     }
     this.dataReady = true;
+
+    setInterval(function () {
+      this.$store.dispatch("loadData");
+    }, 60000);
   },
 
   methods: {
