@@ -7,7 +7,7 @@
     <strong>Email:</strong> {{ this.$auth.user.email }} <br /><br />
 
     <button class="button block">
-      <nuxt-link to="/user/logout">Logout</nuxt-link>
+      <nuxt-link to="/user/logout">Sign out</nuxt-link>
     </button>
     <br />
 
