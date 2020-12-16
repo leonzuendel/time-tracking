@@ -30,6 +30,12 @@
       placeholder="e.g. d5e889n4knm865nbn324jb2jb3b44bjbaeedc6"
       class="form-input"
     />
+    <br />
+    <br />
+    <span class="light"
+      >TimeTracking made with <i class="las la-heart"></i> by Leon Zündel<br />
+      v.0.1.1 | Pre-alpha stadium</span
+    >
   </section>
 </template>
 
