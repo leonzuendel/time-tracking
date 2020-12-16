@@ -1,5 +1,5 @@
 <template>
-  <section class="full-height color">
+  <section class="full-height grey">
     <div class="center-box">
       <h1>Sign up</h1>
 

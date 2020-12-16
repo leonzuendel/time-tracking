@@ -1,5 +1,5 @@
 <template>
-  <section v-if="!loggedIn" class="full-height color">
+  <section v-if="!loggedIn" class="full-height grey">
     <div class="center-box">
       <h1>Sign in</h1>
 
