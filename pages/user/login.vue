@@ -1,51 +1,43 @@
 <template>
-  <div>
-    <h1>Login</h1>
-    <hr />
+  <section v-if="!loggedIn" class="full-height color">
+    <div class="center-box">
+      <h1>Sign in</h1>
 
-    <div v-if="$route.params.registered == 'yes'" class="alert alert-success">
-      You have registered successfully
-    </div>
-
-    <div class="row">
-      <div class="col-md-6">
-        <form action="" method="post" @submit.prevent="submitForm()">
-          <div class="form-group">
-            <label for="">Email</label>
-            <input
-              v-model="email"
-              type="text"
-              class="form-control"
-              :class="{ 'is-invalid': errors && errors.email }"
-            />
-            <div v-if="errors && errors.email" class="invalid-feedback">
-              {{ errors.email.msg }}
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="">Password</label>
-            <input
-              v-model="password"
-              type="password"
-              class="form-control"
-              :class="{ 'is-invalid': errors && errors.password }"
-            />
-            <div v-if="errors && errors.password" class="invalid-feedback">
-              {{ errors.password.msg }}
-            </div>
-          </div>
-
-          <div v-if="login_error" class="alert alert-danger">
-            {{ login_error }}
-          </div>
-
-          <input type="submit" value="Login" class="btn btn-primary mr-3" />
-          <nuxt-link to="/" class="btn btn-secondary mr-3">Cancel</nuxt-link>
-        </form>
+      <div v-if="$route.params.registered == 'yes'">
+        You have registered successfully
       </div>
+
+      <form action="" method="post" @submit.prevent="submitForm()">
+        <label for="">Email</label>
+        <input
+          v-model="email"
+          type="text"
+          class="form-control"
+          :class="{ 'is-invalid': errors && errors.email }"
+        />
+        <div v-if="errors && errors.email" class="invalid-feedback">
+          {{ errors.email.msg }}
+        </div>
+
+        <label for="">Password</label>
+        <input
+          v-model="password"
+          type="password"
+          class="form-control"
+          :class="{ 'is-invalid': errors && errors.password }"
+        />
+        <div v-if="errors && errors.password" class="invalid-feedback">
+          {{ errors.password.msg }}
+        </div>
+
+        <div v-if="login_error" class="alert alert-danger">
+          {{ login_error }}
+        </div>
+
+        <input type="submit" value="Sign in" class="button" />
+      </form>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
@@ -59,13 +51,16 @@ export default {
       login_error: null,
       email: null,
       password: null,
-      status: false
+      status: false,
+      loggedIn: true
     };
   },
 
   mounted() {
     if (this.$auth.user) {
       this.$router.push("/");
+    } else {
+      this.loggedIn = false;
     }
   },
 

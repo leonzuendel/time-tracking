@@ -1,60 +1,51 @@
 <template>
-  <div>
-    <h1>Register</h1>
-    <hr />
+  <section class="full-height color">
+    <div class="center-box">
+      <h1>Sign up</h1>
 
-    <div class="row">
-      <div class="col-md-6">
-        <form action="" method="post" @submit.prevent="submitForm()">
-          <div class="form-group">
-            <label for="">Full Name</label>
-            <input
-              v-model="full_name"
-              type="text"
-              class="form-control"
-              :class="{ 'is-invalid': errors && errors.full_name }"
-            />
-            <div v-if="errors && errors.full_name" class="invalid-feedback">
-              {{ errors.full_name.msg }}
-            </div>
-          </div>
+      <form action="" method="post" @submit.prevent="submitForm()">
+        <label for="">Full Name</label>
+        <input
+          v-model="full_name"
+          type="text"
+          class="form-control"
+          :class="{ 'is-invalid': errors && errors.full_name }"
+        />
+        <div v-if="errors && errors.full_name" class="invalid-feedback">
+          {{ errors.full_name.msg }}
+        </div>
 
-          <div class="form-group">
-            <label for="">Email</label>
-            <input
-              v-model="email"
-              type="text"
-              class="form-control"
-              :class="{ 'is-invalid': errors && errors.email }"
-            />
-            <div v-if="errors && errors.email" class="invalid-feedback">
-              {{ errors.email.msg }}
-            </div>
-          </div>
+        <label for="">Email</label>
+        <input
+          v-model="email"
+          type="text"
+          class="form-control"
+          :class="{ 'is-invalid': errors && errors.email }"
+        />
+        <div v-if="errors && errors.email" class="invalid-feedback">
+          {{ errors.email.msg }}
+        </div>
 
-          <div class="form-group">
-            <label for="">Password</label>
-            <input
-              v-model="password"
-              type="password"
-              class="form-control"
-              :class="{ 'is-invalid': errors && errors.password }"
-            />
-            <div v-if="errors && errors.password" class="invalid-feedback">
-              {{ errors.password.msg }}
-            </div>
-          </div>
+        <label for="">Password</label>
+        <input
+          v-model="password"
+          type="password"
+          class="form-control"
+          :class="{ 'is-invalid': errors && errors.password }"
+        />
+        <div v-if="errors && errors.password" class="invalid-feedback">
+          {{ errors.password.msg }}
+        </div>
 
-          <input type="submit" value="Register" class="btn btn-primary mr-3" />
-          <nuxt-link to="/" class="btn btn-secondary mr-3">Cancel</nuxt-link>
-        </form>
-      </div>
+        <input type="submit" value="Sign up" class="button" />
+      </form>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
 export default {
+  layout: "page",
   middleware: "auth",
   auth: "guest",
   data() {

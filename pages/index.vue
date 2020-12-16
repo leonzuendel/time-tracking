@@ -1,6 +1,6 @@
 <template>
-  <div id="content" class="has-side-bar">
-    <div v-if="dataReady" id="side-bar">
+  <div v-if="dataReady" id="content" class="has-side-bar">
+    <div id="side-bar">
       <ul id="project-nav">
         <draggable v-model="projects" handle=".handle" ghost-class="ghost">
           <li

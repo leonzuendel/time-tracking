@@ -44,7 +44,6 @@ body {
 }
 
 button.button {
-  padding: 12px;
   border: none;
   border-radius: 0;
   background-color: var(--grey-color);
@@ -63,13 +62,23 @@ button.button:hover {
 }
 
 button.button a {
-  vertical-align: top;
   line-height: 1;
   color: inherit;
 }
 
 input {
   background-color: var(--bg-color);
+}
+
+input[type="submit"],
+input[type="button"] {
+  border: none;
+  border-radius: 0;
+  background-color: var(--grey-color);
+  cursor: pointer;
+  text-align: center;
+  font-size: 1em;
+  filter: brightness(0.85);
 }
 
 select {
@@ -163,7 +172,47 @@ p {
   padding: 30px;
 }
 
-/* projects */
+section {
+  position: relative;
+}
+
+section.full-height {
+  min-height: 100vh;
+}
+
+section.color {
+  background-color: var(--main-color);
+}
+
+/* Login / Register */
+
+.center-box {
+  position: absolute;
+  top: 15vh;
+  left: 0;
+  right: 0;
+  width: 30vw;
+  margin: auto;
+  padding: 30px;
+  text-align: center;
+  background-color: var(--bg-color);
+}
+
+.center-box input {
+  width: 100%;
+  margin-bottom: 12px;
+  font-size: 1em;
+  padding: 10px;
+  margin-top: 8px;
+}
+
+.invalid-feedback {
+  background-color: var(--light-red-color);
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+/* Projects */
 
 #project-nav {
 }
