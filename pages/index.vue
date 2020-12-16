@@ -1,6 +1,7 @@
 <template>
   <div v-if="dataReady" id="content" class="has-side-bar">
     <div id="side-bar">
+      <h2>Projects</h2>
       <ul id="project-nav">
         <draggable v-model="projects" handle=".handle" ghost-class="ghost">
           <li
@@ -14,12 +15,14 @@
               class="inner"
               @click="selectProject(project._id)"
             >
-              <i class="las la-braille handle"></i><i class="lar la-folder"></i
-              >{{ project.title }}
+              <i class="las la-braille handle"></i>
+              <div class="project-color"></div>
+              {{ project.title }}
             </div>
             <div v-else class="inner" @click="selectProject(project._id)">
-              <i class="las la-braille handle"></i
-              ><i class="lar la-folder"></i>Untitled
+              <i class="las la-braille handle"></i>
+              <div class="project-color"></div>
+              Untitled
             </div>
             <div>
               <button

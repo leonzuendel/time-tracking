@@ -1,11 +1,11 @@
 <template>
   <div id="top-bar">
     <div class="app-title">
-      <i class="las la-stopwatch"></i
-      ><b v-if="$auth.user">{{ $auth.user.full_name }}</b>
+      <div class="profile-color">{{ $auth.user.full_name.slice(0, 1) }}</div>
+      <span v-if="$auth.user">{{ $auth.user.full_name }}</span>
     </div>
     <button class="settings-button" @click="openSettings()">
-      <i class="las la-cog"></i>Settiings
+      <i class="las la-ellipsis-h"></i>
     </button>
   </div>
 </template>
