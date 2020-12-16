@@ -1,4 +1,4 @@
-# notes-app
+# time-tracking
 
 ## Build Setup
 
