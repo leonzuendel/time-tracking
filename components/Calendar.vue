@@ -8,7 +8,7 @@
           :class="isActive(view)"
           @click="switchView(view)"
         >
-          <span v-html="view.icon"></span>{{ view.title }}
+          <span v-html="view.icon"></span>
         </li>
       </ul>
     </div>

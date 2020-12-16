@@ -2,7 +2,7 @@
   <section id="settings">
     <h2>My Account</h2>
 
-    <h4>{{ this.$auth.user.full_name }}</h4>
+    <h4>{{ this.$auth.user.first_name }} {{ this.$auth.user.last_name }}</h4>
 
     <strong>Email:</strong> {{ this.$auth.user.email }} <br /><br />
 

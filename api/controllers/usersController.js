@@ -7,7 +7,8 @@ const config = require("../config");
 // Register
 module.exports.register = [
   // validations rules
-  validator.body("full_name", "Please enter Full Name").isLength({ min: 1 }),
+  validator.body("first_name", "Please enter First Name").isLength({ min: 1 }),
+  validator.body("last_name", "Please enter Last Name").isLength({ min: 1 }),
   validator.body("email", "Please enter Email").isLength({ min: 1 }),
   validator.body("email").custom((value) => {
     return User.findOne({ email: value }).then((user) => {
@@ -28,7 +29,8 @@ module.exports.register = [
 
     // initialize record
     const user = new User({
-      full_name: req.body.full_name,
+      first_name: req.body.first_name,
+      last_name: req.body.last_name,
       email: req.body.email,
       password: req.body.password,
       settings: {
@@ -97,14 +99,16 @@ module.exports.login = [
               user: {
                 _id: user._id,
                 email: user.email,
-                full_name: user.full_name,
+                first_name: user.first_name,
+                last_name: user.last_name,
                 settings: user.settings
               },
               token: jwt.sign(
                 {
                   _id: user._id,
                   email: user.email,
-                  full_name: user.full_name,
+                  first_name: user.first_name,
+                  last_name: user.last_name,
                   settings: user.settings
                 },
                 config.authSecret
@@ -139,7 +143,10 @@ module.exports.update = [
       }
 
       // initialize record
-      user.full_name = req.body.full_name ? req.body.full_name : user.full_name;
+      user.first_name = req.body.first_name
+        ? req.body.first_name
+        : user.first_name;
+      user.last_name = req.body.last_name ? req.body.last_name : user.last_name;
       user.email = req.body.email ? req.body.email : user.email;
       user.password = req.body.password ? req.body.password : user.password;
 

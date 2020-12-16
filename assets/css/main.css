@@ -3,7 +3,7 @@
 :root {
   --font-color: #0f0f0f;
   --light-font-color: #8d8d8d;
-  --main-color: #646262;
+  --main-color: #dddddd;
   --second-color: #456be9;
   --red-color: rgb(170, 28, 28);
   --light-red-color: rgba(170, 28, 28, 0.3);
@@ -56,6 +56,7 @@ button.button {
   text-align: center;
   font-size: 1em;
   filter: brightness(0.85);
+  border-radius: 4px;
 }
 
 button.button.block {
@@ -73,6 +74,7 @@ button.button a {
 
 input {
   background-color: var(--bg-color);
+  border-radius: 4px;
 }
 
 input[type="submit"],
@@ -84,6 +86,15 @@ input[type="button"] {
   text-align: center;
   font-size: 1em;
   filter: brightness(0.85);
+  border-radius: 4px;
+}
+
+button.button.color,
+input[type="submit"].color,
+input[type="button"].color {
+  background-color: var(--second-color);
+  color: var(--bg-color);
+  filter: brightness(1);
 }
 
 select {
@@ -153,15 +164,16 @@ p {
 .profile-color {
   height: 25px;
   width: 25px;
-  background-color: var(--main-color);
+  background-color: var(--second-color);
   display: inline-block;
   vertical-align: 2px;
   margin-right: 0.3em;
   border-radius: 100%;
   text-align: center;
-  font-size: 0.9em;
-  padding: 2px;
+  font-size: 0.8em;
+  padding: 3px;
   color: var(--bg-color);
+  text-transform: uppercase;
 }
 
 #content:not(.has-side-bar) {
@@ -177,6 +189,10 @@ p {
   height: calc(100vh - var(--top-bar-height));
 }
 
+#content.has-side-bar.hidden-side-bar {
+  grid-template-columns: 50px 5fr;
+}
+
 #content #inner {
   overflow-y: auto;
   position: relative;
@@ -186,6 +202,23 @@ p {
   background-color: var(--grey-color);
   height: calc(100vh - var(--top-bar-height));
   overflow-y: auto;
+  position: relative;
+}
+
+#side-bar.hidden {
+}
+
+.side-bar-toggle {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 36px;
+  font-size: 1.2em;
+  color: var(--light-font-color);
+  cursor: pointer;
+  height: 2em;
+  width: 2em;
+  text-align: center;
 }
 
 #side-bar h2 {
@@ -327,7 +360,7 @@ li:active .handle {
 .project-color {
   height: 1em;
   width: 1em;
-  background-color: var(--main-color);
+  background-color: var(--red-color);
   display: inline-block;
   vertical-align: -1px;
   margin-right: 0.8em;
@@ -343,15 +376,19 @@ li:active .handle {
 }
 
 .view-switch i {
-  margin-right: 0.5em;
+  font-size: 1.4em;
 }
 
 .view-switch ul li {
   display: inline-block;
   margin-right: 3px;
-  padding: 6px 12px 6px 12px;
-  background-color: var(--grey-color);
+  padding: 4px 6px 4px 6px;
   cursor: pointer;
+  color: var(--light-font-color);
+}
+
+.view-switch ul li:not(:last-of-type) {
+  border-right: 2px solid var(--grey-color);
 }
 
 .view-switch ul li:hover {
@@ -359,8 +396,7 @@ li:active .handle {
 }
 
 .view-switch ul li.active {
-  background-color: var(--main-color);
-  color: var(--bg-color);
+  color: var(--second-color);
 }
 
 .project-title {
@@ -651,7 +687,7 @@ li:active .handle {
 
 .add-time {
   position: absolute;
-  left: 172px;
+  left: 80px;
   top: var(--tabs-height);
   margin: 5px;
   display: inline-block;
@@ -661,6 +697,7 @@ li:active .handle {
   cursor: pointer;
   border: none;
   font-size: inherit;
+  border-radius: 4px;
 }
 
 .add-time i {
@@ -688,6 +725,7 @@ li:active .handle {
   cursor: pointer;
   border: none;
   font-size: inherit;
+  border-radius: 4px;
 }
 
 .todos .add-todo i {
@@ -807,6 +845,7 @@ input[type="checkbox"] + label::before {
   display: inline-block;
   margin: auto;
   cursor: pointer;
+  border-radius: 4px;
 }
 
 input[type="checkbox"]:checked + label::after {
@@ -842,6 +881,7 @@ input[type="checkbox"]:checked + label::after {
   text-align: center;
   font-size: 1em;
   filter: brightness(0.85);
+  border-radius: 4px;
 }
 
 .big-button:hover {
@@ -863,6 +903,7 @@ input[type="checkbox"]:checked + label::after {
   cursor: pointer;
   text-align: center;
   font-size: 1em;
+  border-radius: 4px;
 }
 
 .delete-project-button:hover {
@@ -887,6 +928,7 @@ input[type="checkbox"]:checked + label::after {
   text-align: center;
   font-size: 0.85em;
   cursor: pointer;
+  border-radius: 4px;
 }
 
 .settings-button i {

@@ -1,43 +1,45 @@
 <template>
-  <div v-if="dataReady" id="content" class="has-side-bar">
-    <div id="side-bar">
-      <h2>Projects</h2>
-      <ul id="project-nav">
-        <draggable v-model="projects" handle=".handle" ghost-class="ghost">
-          <li
-            v-for="(project, index) in projects"
-            :key="project._id"
-            :ref="'project-li-' + index"
-            :class="isActive(project._id)"
-          >
-            <div
-              v-if="project.title !== ''"
-              class="inner"
-              @click="selectProject(project._id)"
+  <div
+    v-if="dataReady"
+    id="content"
+    class="has-side-bar"
+    :class="{ 'hidden-side-bar': hideSideBar }"
+  >
+    <div id="side-bar" :class="{ hidden: hideSideBar }">
+      <div class="side-bar-toggle" @click="$store.dispatch('toggleSideBar')">
+        <i v-if="!hideSideBar" class="las la-minus"></i>
+        <i v-if="hideSideBar" class="las la-bars"></i>
+      </div>
+      <div v-if="!hideSideBar" class="not-hidden">
+        <h2>Projects</h2>
+        <ul id="project-nav">
+          <draggable v-model="projects" handle=".handle" ghost-class="ghost">
+            <li
+              v-for="(project, index) in projects"
+              :key="project._id"
+              :ref="'project-li-' + index"
+              :class="isActive(project._id)"
             >
-              <i class="las la-braille handle"></i>
-              <div class="project-color"></div>
-              {{ project.title }}
-            </div>
-            <div v-else class="inner" @click="selectProject(project._id)">
-              <i class="las la-braille handle"></i>
-              <div class="project-color"></div>
-              Untitled
-            </div>
-            <div>
-              <button
-                class="delete-project"
-                @click="deleteProject(index, project)"
-              >
-                <i class="lar la-trash-alt"></i>
-              </button>
-            </div>
-          </li>
-        </draggable>
-      </ul>
-      <button class="add-project" @click="addProject()">
-        <i class="las la-plus-circle"></i>Add Project
-      </button>
+              <div class="inner" @click="selectProject(project._id)">
+                <i class="las la-braille handle"></i>
+                <div class="project-color"></div>
+                {{ project.title ? project.title : "Untitled" }}
+              </div>
+              <div>
+                <button
+                  class="delete-project"
+                  @click="deleteProject(index, project)"
+                >
+                  <i class="lar la-trash-alt"></i>
+                </button>
+              </div>
+            </li>
+          </draggable>
+        </ul>
+        <button class="add-project" @click="addProject()">
+          <i class="las la-plus-circle"></i>Add Project
+        </button>
+      </div>
     </div>
     <div v-if="dataReady" id="inner">
       <Project
@@ -83,7 +85,7 @@ export default {
   },
 
   computed: {
-    ...mapState(["projects", "projectSelected"]),
+    ...mapState(["projects", "projectSelected", "hideSideBar"]),
     currentProject() {
       const result = this.projects.filter((obj) => {
         return obj._id === this.projectSelected;

@@ -34,7 +34,7 @@
           {{ login_error }}
         </div>
 
-        <input type="submit" value="Sign in" class="button" />
+        <input type="submit" value="Sign in" class="button color" />
       </form>
     </div>
   </section>

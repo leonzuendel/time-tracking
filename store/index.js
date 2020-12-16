@@ -7,10 +7,14 @@ export const state = () => ({
   settings: {
     toDoistApiKey: "",
     toDoistEnabled: false
-  }
+  },
+  hideSideBar: false
 });
 
 export const actions = {
+  toggleSideBar({ commit }) {
+    commit("TOGGLE_SIDEBAR");
+  },
   async loadData({ dispatch }) {
     await dispatch("getSettings");
     await dispatch("getProjects");
@@ -202,6 +206,9 @@ export const actions = {
 };
 
 export const mutations = {
+  TOGGLE_SIDEBAR(state) {
+    state.hideSideBar = !state.hideSideBar;
+  },
   SET_SETTINGS(state, payload) {
     state.settings = payload;
   },

@@ -4,15 +4,26 @@
       <h1>Sign up</h1>
 
       <form action="" method="post" @submit.prevent="submitForm()">
-        <label for="">Full Name</label>
+        <label for="">First Name</label>
         <input
-          v-model="full_name"
+          v-model="fist_name"
           type="text"
           class="form-control"
-          :class="{ 'is-invalid': errors && errors.full_name }"
+          :class="{ 'is-invalid': errors && errors.fist_name }"
         />
-        <div v-if="errors && errors.full_name" class="invalid-feedback">
-          {{ errors.full_name.msg }}
+        <div v-if="errors && errors.fist_name" class="invalid-feedback">
+          {{ errors.fist_name.msg }}
+        </div>
+
+        <label for="">Last Name</label>
+        <input
+          v-model="last_name"
+          type="text"
+          class="form-control"
+          :class="{ 'is-invalid': errors && errors.last_name }"
+        />
+        <div v-if="errors && errors.last_name" class="invalid-feedback">
+          {{ errors.last_name.msg }}
         </div>
 
         <label for="">Email</label>
@@ -37,7 +48,7 @@
           {{ errors.password.msg }}
         </div>
 
-        <input type="submit" value="Sign up" class="button" />
+        <input type="submit" value="Sign up" class="button color" />
       </form>
     </div>
   </section>
@@ -51,7 +62,8 @@ export default {
   data() {
     return {
       errors: null,
-      full_name: null,
+      first_name: null,
+      last_name: null,
       email: null,
       password: null,
       status: false
@@ -62,7 +74,8 @@ export default {
     submitForm() {
       this.$axios
         .post("/api/users/register", {
-          full_name: this.full_name,
+          first_name: this.first_name,
+          last_name: this.last_name,
           email: this.email,
           password: this.password
         })
