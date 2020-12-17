@@ -7,6 +7,23 @@
         You have registered successfully
       </div>
 
+      <button class="login-button" @click="$auth.loginWith('google')">
+        <img
+          src="https://www.iconfinder.com/data/icons/social-media-2210/24/Google-512.png"
+          style="
+            width: 30px;
+            background: white;
+            border-radius: 50%;
+            margin-left: -20px;
+          "
+          alt=""
+        /><span style="top: -10px; left: 10px; position: relative"
+          >Sign in with Google</span
+        >
+      </button>
+
+      <h3>Sign in with email</h3>
+
       <form action="" method="post" @submit.prevent="submitForm()">
         <label for="">Email</label>
         <input
@@ -36,6 +53,9 @@
 
         <input type="submit" value="Sign in" class="button color" />
       </form>
+      <br />
+      Don't have an account yet?
+      <nuxt-link to="/user/register">Sign up here.</nuxt-link>
     </div>
   </section>
 </template>

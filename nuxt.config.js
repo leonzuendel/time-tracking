@@ -7,7 +7,8 @@ export default {
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { hid: "description", name: "description", content: "" }
     ],
-    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
+    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+    script: [{ src: "https://apis.google.com/js/platform.js" }]
   },
 
   loading: false,
@@ -76,6 +77,13 @@ export default {
         },
         tokenRequired: true,
         tokenType: "Bearer"
+      },
+      google: {
+        clientId:
+          "622609394022-41n656at0qeotqb5s2tvljmgvju01atg.apps.googleusercontent.com",
+        response_type: "token id_token",
+        token_key: "id_token",
+        userinfo_endpoint: undefined
       }
     },
     redirect: {
