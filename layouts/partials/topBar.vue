@@ -1,13 +1,8 @@
 <template>
   <div id="top-bar">
     <div class="app-title">
-      <div class="profile-color">
-        {{ $auth.user.first_name.slice(0, 1)
-        }}{{ $auth.user.last_name.slice(0, 1) }}
-      </div>
-      <span v-if="$auth.user"
-        >{{ $auth.user.first_name }} {{ $auth.user.last_name }}</span
-      >
+      <div class="profile-color"></div>
+      <span v-if="$auth.user"></span>
     </div>
     <button class="settings-button" @click="openSettings()">
       <i class="las la-ellipsis-h"></i>

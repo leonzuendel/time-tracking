@@ -7,8 +7,7 @@ export default {
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { hid: "description", name: "description", content: "" }
     ],
-    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
-    script: [{ src: "https://apis.google.com/js/platform.js" }]
+    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
   },
 
   loading: false,
@@ -79,17 +78,17 @@ export default {
         tokenType: "Bearer"
       },
       google: {
-        clientId:
+        client_id:
           "622609394022-41n656at0qeotqb5s2tvljmgvju01atg.apps.googleusercontent.com",
-        response_type: "token id_token",
-        token_key: "id_token",
-        userinfo_endpoint: undefined
+        codeChallengeMethod: "plain",
+        responseType: "code"
       }
     },
     redirect: {
       login: "/user/login", // User will be redirected to this path if login is required
       logout: "/user/login", // User will be redirected to this path if after logout, current route is protected
-      home: "/" // User will be redirect to this path after login if accessed login page directly
+      home: "/", // User will be redirect to this path after login if accessed login page directly
+      callback: "/user/login"
     },
     rewriteRedirects: true
   },

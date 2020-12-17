@@ -1,3 +1,4 @@
+// Including our config file
 const validator = require("express-validator");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
@@ -124,6 +125,8 @@ module.exports.login = [
     });
   }
 ];
+
+module.exports.loginWithGoogle = [];
 
 // Update
 module.exports.update = [

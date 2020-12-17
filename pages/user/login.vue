@@ -7,7 +7,7 @@
         You have registered successfully
       </div>
 
-      <button class="login-button" @click="$auth.loginWith('google')">
+      <!-- <button class="login-button" @click="loginWithGoogle()">
         <img
           src="https://www.iconfinder.com/data/icons/social-media-2210/24/Google-512.png"
           style="
@@ -15,14 +15,15 @@
             background: white;
             border-radius: 50%;
             margin-left: -20px;
+            margin-top: 3px;
           "
           alt=""
         /><span style="top: -10px; left: 10px; position: relative"
           >Sign in with Google</span
         >
-      </button>
+      </button> 
 
-      <h3>Sign in with email</h3>
+      <h3>Sign in with email</h3> -->
 
       <form action="" method="post" @submit.prevent="submitForm()">
         <label for="">Email</label>
@@ -99,6 +100,14 @@ export default {
             this.login_error = error.response.data.message;
           }
         });
+    },
+    async loginWithGoogle() {
+      try {
+        const res = await this.$auth.loginWith("google");
+        console.log("login result: " + res);
+      } catch (err) {
+        this.consoleLog("login error: " + err);
+      }
     }
   }
 };
