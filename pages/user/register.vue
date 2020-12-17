@@ -51,7 +51,7 @@
         <input type="submit" value="Sign up" class="button color" />
       </form>
       <br />
-      Already signed up?
+      Already have an account?
       <nuxt-link to="/user/login">Sign in here.</nuxt-link>
     </div>
   </section>
