@@ -89,12 +89,23 @@ input[type="button"] {
   border-radius: 4px;
 }
 
+input[type="submit"]:hover,
+input[type="button"]:hover {
+  filter: brightness(0.75);
+}
+
 button.button.color,
 input[type="submit"].color,
 input[type="button"].color {
   background-color: var(--second-color);
   color: var(--bg-color);
   filter: brightness(1);
+}
+
+button.button.color:hover,
+input[type="submit"].color:hover,
+input[type="button"].color:hover {
+  filter: brightness(0.9);
 }
 
 select {
@@ -295,6 +306,10 @@ section.grey {
   font-size: 1em;
   padding: 4px;
   font-weight: normal;
+}
+
+.login-button:hover {
+  filter: brightness(0.9);
 }
 
 .invalid-feedback {
