@@ -15,7 +15,7 @@ module.exports.list = function (req, res, next) {
 
 module.exports.listByUser = function (req, res, next) {
   const id = req.params.user_id;
-  Project.find({ user: id }, function (err, projects) {
+  Project.find({ users: { $elemMatch: { id } } }, function (err, projects) {
     if (err) {
       return res.status(500).json({
         message: "Error getting records."
@@ -88,7 +88,9 @@ module.exports.update = [
       project.settings = req.body.settings
         ? req.body.settings
         : project.settings;
-      project.user = req.body.user ? req.body.user : project.user;
+      project.users = req.body.users ? req.body.users : project.users;
+      project.sort = req.body.sort ? req.body.sort : project.sort;
+      project.color = req.body.color ? req.body.color : project.color;
 
       // save record
       project.save(function (err, project) {

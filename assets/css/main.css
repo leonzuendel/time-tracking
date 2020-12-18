@@ -12,6 +12,12 @@
   --site-padding: 25px;
   --top-bar-height: 45px;
   --tabs-height: 40px;
+
+  --project-color-red: rgb(170, 28, 28);
+  --project-color-blue: rgb(28, 73, 170);
+  --project-color-green: rgb(10, 141, 10);
+  --project-color-yellow: rgb(233, 218, 3);
+  --project-color-orange: rgb(247, 109, 18);
 }
 
 /* Draggable */

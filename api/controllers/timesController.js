@@ -108,6 +108,7 @@ module.exports.update = [
       time.class = req.body.class ? req.body.class : time.class;
       time.user = req.body.user ? req.body.user : time.user;
       time.project = req.body.project ? req.body.project : time.project;
+      time.sort = req.body.sort ? req.body.sort : time.sort;
 
       // save record
       time.save(function (err, time) {

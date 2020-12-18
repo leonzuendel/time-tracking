@@ -23,7 +23,8 @@ const Time = new Schema({
   focused: { type: Boolean, required: false, default: false },
   class: { type: String, required: false, default: "" },
   user: { type: String, required: true },
-  project: { type: String, required: false }
+  project: { type: String, required: false },
+  sort: { type: Number, required: false }
 });
 
 module.exports = mongoose.model("Time", Time);

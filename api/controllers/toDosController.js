@@ -94,6 +94,7 @@ module.exports.update = [
         : toDo.importedFrom;
       toDo.project = req.body.project ? req.body.project : toDo.project;
       toDo.user = req.body.user ? req.body.user : toDo.user;
+      toDo.sort = req.body.sort ? req.body.sort : toDo.sort;
 
       // save record
       toDo.save(function (err, toDo) {

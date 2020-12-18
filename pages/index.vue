@@ -22,7 +22,10 @@
             >
               <div class="inner" @click="selectProject(project._id)">
                 <i class="las la-braille handle"></i>
-                <div class="project-color"></div>
+                <div
+                  class="project-color"
+                  :style="{ backgroundColor: projectColor(project.color) }"
+                ></div>
                 {{ project.title ? project.title : "Untitled" }}
               </div>
               <div>
@@ -131,8 +134,9 @@ export default {
       const newProject = {
         title: "",
         content: "",
-        user: this.$auth.user._id,
-        settings: {}
+        users: [{ id: this.$auth.user._id, role: "owner" }],
+        settings: {},
+        color: this.randomColor()
       };
       // this.saveProjects();
       await this.$store.dispatch("createProject", newProject);
@@ -154,6 +158,36 @@ export default {
       if (id === this.projectSelected) {
         return "active";
       }
+    },
+    getRandomInt(min, max) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    },
+    randomColor() {
+      let color = "";
+      const number = this.getRandomInt(1, 5);
+      switch (number) {
+        case 1:
+          color = "red";
+          break;
+        case 2:
+          color = "blue";
+          break;
+        case 3:
+          color = "green";
+          break;
+        case 4:
+          color = "yellow";
+          break;
+        case 5:
+          color = "orange";
+          break;
+      }
+      return color;
+    },
+    projectColor(color) {
+      return "var(--project-color-" + color;
     }
   }
 };

@@ -10,7 +10,8 @@ const ToDo = new Schema({
   imported: { type: String, required: true, default: false },
   importedFrom: { type: String, required: false, default: "" },
   project: { type: String, required: true },
-  user: { type: String, required: true }
+  user: { type: String, required: true },
+  sort: { type: Number, required: false }
 });
 
 module.exports = mongoose.model("ToDo", ToDo);
