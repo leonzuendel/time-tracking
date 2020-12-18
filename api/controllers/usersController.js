@@ -37,7 +37,8 @@ module.exports.register = [
       settings: {
         toDoistApiKey: "",
         toDoistEnabled: false
-      }
+      },
+      login_method: "email"
     });
 
     // encrypt password
@@ -102,7 +103,8 @@ module.exports.login = [
                 email: user.email,
                 first_name: user.first_name,
                 last_name: user.last_name,
-                settings: user.settings
+                settings: user.settings,
+                login_method: user.login_method
               },
               token: jwt.sign(
                 {
@@ -110,7 +112,8 @@ module.exports.login = [
                   email: user.email,
                   first_name: user.first_name,
                   last_name: user.last_name,
-                  settings: user.settings
+                  settings: user.settings,
+                  login_method: user.login_method
                 },
                 config.authSecret
               ) // generate JWT token here
@@ -126,7 +129,73 @@ module.exports.login = [
   }
 ];
 
-module.exports.loginWithGoogle = [];
+module.exports.loginWithGoogle = [
+  function (req, res) {
+    // validate email and password are correct
+    User.findOne({ email: req.body.email }, function (err, user) {
+      if (err) {
+        return res.status(500).json({
+          message: "Error logging in",
+          error: err
+        });
+      }
+
+      if (user === null) {
+        const firstName = req.body.name.split(" ").slice(0, -1).join(" ");
+        const lastName = req.body.name.split(" ").slice(-1).join(" ");
+        // initialize record
+        const user = new User({
+          first_name: firstName,
+          last_name: lastName,
+          email: req.body.email,
+          settings: {
+            toDoistApiKey: "",
+            toDoistEnabled: false
+          },
+          login_method: "google"
+        });
+
+        // save record
+        user.save(function (err, user) {
+          if (err) {
+            return res.status(500).json({
+              message: "Error saving record",
+              error: err
+            });
+          }
+        });
+
+        return res.json({
+          message: "user created",
+          _id: user._id
+        });
+      }
+
+      // return user
+      return res.json({
+        user: {
+          _id: user._id,
+          email: user.email,
+          first_name: user.first_name,
+          last_name: user.last_name,
+          settings: user.settings,
+          login_method: user.login_method
+        },
+        token: jwt.sign(
+          {
+            _id: user._id,
+            email: user.email,
+            first_name: user.first_name,
+            last_name: user.last_name,
+            settings: user.settings,
+            login_method: user.login_method
+          },
+          config.authSecret
+        ) // generate JWT token here
+      });
+    });
+  }
+];
 
 // Update
 module.exports.update = [

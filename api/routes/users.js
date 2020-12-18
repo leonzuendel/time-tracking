@@ -15,6 +15,9 @@ router.post("/users/login", usersController.login);
 // Get User
 router.get("/users/user", usersController.user);
 
+// Login with Google
+router.post("/users/google", usersController.loginWithGoogle);
+
 // Get User Settings
 router.get(
   "/users/:id/settings",

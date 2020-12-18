@@ -4,6 +4,10 @@
 
     <h4>{{ this.$auth.user.first_name }} {{ this.$auth.user.last_name }}</h4>
 
+    <p v-if="this.$auth.user.login_method === 'google'">
+      You are signed in using <i class="fab fa-google"></i> Google.
+    </p>
+
     <strong>Email:</strong> {{ this.$auth.user.email }} <br /><br />
 
     <button class="button block">

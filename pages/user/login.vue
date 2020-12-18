@@ -7,23 +7,32 @@
         You have registered successfully
       </div>
 
-      <!-- <button class="login-button" @click="loginWithGoogle()">
-        <img
-          src="https://www.iconfinder.com/data/icons/social-media-2210/24/Google-512.png"
-          style="
-            width: 30px;
-            background: white;
-            border-radius: 50%;
-            margin-left: -20px;
-            margin-top: 3px;
-          "
-          alt=""
-        /><span style="top: -10px; left: 10px; position: relative"
-          >Sign in with Google</span
-        >
-      </button> 
+      <googleSignIn
+        :client-id="'622609394022-41n656at0qeotqb5s2tvljmgvju01atg.apps.googleusercontent.com'"
+        :success-call-back="loginWithGoogle"
+        :custom-button-id="'google-login'"
+        :custom-button="true"
+      >
+        <slot>
+          <button id="google-login" class="login-button">
+            <img
+              src="https://www.iconfinder.com/data/icons/social-media-2210/24/Google-512.png"
+              style="
+                width: 30px;
+                background: white;
+                border-radius: 50%;
+                margin-left: -20px;
+                margin-top: 3px;
+              "
+              alt=""
+            /><span style="top: -10px; left: 10px; position: relative"
+              >Sign in with Google</span
+            >
+          </button></slot
+        ></googleSignIn
+      >
 
-      <h3>Sign in with email</h3> -->
+      <h3>Sign in with email</h3>
 
       <form action="" method="post" @submit.prevent="submitForm()">
         <label for="">Email</label>
@@ -62,7 +71,11 @@
 </template>
 
 <script>
+import googleSignIn from "google-signin-vue/src/googleSignIn.vue";
 export default {
+  components: {
+    googleSignIn
+  },
   layout: "page",
   middleware: "auth",
   auth: "guest",
@@ -101,12 +114,17 @@ export default {
           }
         });
     },
-    async loginWithGoogle() {
-      try {
-        const res = await this.$auth.loginWith("google");
-        console.log("login result: " + res);
-      } catch (err) {
-        this.consoleLog("login error: " + err);
+    async loginWithGoogle(res) {
+      const apiResponse = await this.$axios.$post("/api/users/google", {
+        email: res.email,
+        name: res.name
+      });
+      if (apiResponse.user && apiResponse.token) {
+        this.$auth.setUser(apiResponse.user);
+        this.$auth.setUserToken(apiResponse.token);
+        this.$router.push("/");
+      } else {
+        this.loginWithGoogle(res);
       }
     }
   }
