@@ -47,9 +47,7 @@
         :project.sync="currentProject"
         :index="currentProjectIndex"
       />
-      <p v-else class="no-projects">
-        Press "Add Project" to add your first project.
-      </p>
+      <p v-else class="no-projects"></p>
     </div>
     <div v-else class="loading">Loading Data...</div>
   </div>
