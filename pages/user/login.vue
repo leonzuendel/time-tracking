@@ -17,17 +17,7 @@
           <button id="google-login" class="login-button">
             <img
               src="https://www.iconfinder.com/data/icons/social-media-2210/24/Google-512.png"
-              style="
-                width: 30px;
-                background: white;
-                border-radius: 50%;
-                margin-left: -20px;
-                margin-top: 3px;
-              "
-              alt=""
-            /><span style="top: -10px; left: 10px; position: relative"
-              >Sign in with Google</span
-            >
+            /><span>Sign in with Google</span>
           </button></slot
         ></googleSignIn
       >
