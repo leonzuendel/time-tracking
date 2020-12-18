@@ -3,6 +3,7 @@ export const state = () => ({
   projects: [],
   times: [],
   toDos: [],
+  workspaces: [],
   projectSelected: 1,
   settings: {
     toDoistApiKey: "",

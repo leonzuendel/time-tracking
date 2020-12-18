@@ -6,13 +6,13 @@
       <form action="" method="post" @submit.prevent="submitForm()">
         <label for="">First Name</label>
         <input
-          v-model="fist_name"
+          v-model="first_name"
           type="text"
           class="form-control"
-          :class="{ 'is-invalid': errors && errors.fist_name }"
+          :class="{ 'is-invalid': errors && errors.first_name }"
         />
-        <div v-if="errors && errors.fist_name" class="invalid-feedback">
-          {{ errors.fist_name.msg }}
+        <div v-if="errors && errors.first_name" class="invalid-feedback">
+          {{ errors.first_name.msg }}
         </div>
 
         <label for="">Last Name</label>
