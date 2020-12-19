@@ -25,6 +25,33 @@ module.exports.listByUser = function (req, res, next) {
   });
 };
 
+module.exports.listPrivateByUser = function (req, res, next) {
+  const id = req.params.user_id;
+  Project.find(
+    { users: { $elemMatch: { id, private: true } } },
+    function (err, projects) {
+      if (err) {
+        return res.status(500).json({
+          message: "Error getting records."
+        });
+      }
+      return res.json(projects);
+    }
+  );
+};
+
+module.exports.listByWorkspace = function (req, res, next) {
+  const id = req.params.workspace_id;
+  Project.find({ workspace: id }, function (err, projects) {
+    if (err) {
+      return res.status(500).json({
+        message: "Error getting records."
+      });
+    }
+    return res.json(projects);
+  });
+};
+
 // Get one
 module.exports.show = function (req, res) {
   const id = req.params.id;
@@ -91,6 +118,10 @@ module.exports.update = [
       project.users = req.body.users ? req.body.users : project.users;
       project.sort = req.body.sort ? req.body.sort : project.sort;
       project.color = req.body.color ? req.body.color : project.color;
+      project.workspace = req.body.workspace
+        ? req.body.workspace
+        : project.workspace;
+      project.private = req.body.private ? req.body.private : project.private;
 
       // save record
       project.save(function (err, project) {

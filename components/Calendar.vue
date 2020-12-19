@@ -49,7 +49,7 @@ export default {
     };
   },
   watch: {
-    "$store.state.times": {
+    "$store.state.currentWorkspace.times": {
       handler(val) {
         this.$store.dispatch("updateTimes", this.$store.state.times);
       },
@@ -57,9 +57,9 @@ export default {
     }
   },
   computed: {
-    ...mapState(["times"]),
+    ...mapState(["currentWorkspace"]),
     projectTimes() {
-      const result = this.times.filter(
+      const result = this.currentWorkspace.times.filter(
         (time) => time.project === this.project._id
       );
       return result;

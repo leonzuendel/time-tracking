@@ -5,6 +5,7 @@
 
       <div v-if="$route.params.registered == 'yes'">
         You have registered successfully
+        <br />
       </div>
 
       <googleSignIn

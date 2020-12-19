@@ -9,8 +9,11 @@ const toDosController = require("../controllers/toDosController");
 // Get All
 router.get("/todos", toDosController.list);
 
-// Get One by User
+// Get All by User
 router.get("/todos/user/:user_id", toDosController.listByUser);
+
+// Get All by Project
+router.get("/todos/project/:project_id", toDosController.listByProject);
 
 // Get One
 router.get("/todos/:id", toDosController.show);

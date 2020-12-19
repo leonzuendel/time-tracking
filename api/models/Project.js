@@ -7,7 +7,9 @@ const Project = new Schema({
   settings: { type: Object, required: false },
   users: { type: Array, required: true },
   sort: { type: Number, required: false },
-  color: { type: String, required: false }
+  color: { type: String, required: false },
+  workspace: { type: String, required: false },
+  private: { type: Boolean, required: false }
 });
 
 module.exports = mongoose.model("Project", Project);

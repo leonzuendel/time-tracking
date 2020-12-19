@@ -25,6 +25,18 @@ module.exports.listByUser = function (req, res, next) {
   });
 };
 
+module.exports.listByProject = function (req, res, next) {
+  const id = req.params.project_id;
+  ToDo.find({ project: id }, function (err, toDos) {
+    if (err) {
+      return res.status(500).json({
+        message: "Error getting records."
+      });
+    }
+    return res.json(toDos);
+  });
+};
+
 // Get one
 module.exports.show = function (req, res) {
   const id = req.params.id;

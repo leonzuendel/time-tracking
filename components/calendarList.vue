@@ -81,12 +81,7 @@ export default {
       return this.timeConversion(duration);
     }
   },
-  async mounted() {
-    const timeIDCount = await this.$localForage.getItem("TimeIdCount");
-    if (timeIDCount) {
-      this.timeIdCount = await this.$localForage.getItem("TimeIdCount");
-    }
-  },
+  async mounted() {},
   methods: {
     getDuration(startDate, endDate) {
       const duration = Math.abs(endDate - startDate);

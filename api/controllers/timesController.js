@@ -25,6 +25,18 @@ module.exports.listByUser = function (req, res, next) {
   });
 };
 
+module.exports.listByProject = function (req, res, next) {
+  const id = req.params.project_id;
+  Time.find({ project: id }, function (err, times) {
+    if (err) {
+      return res.status(500).json({
+        message: "Error getting records."
+      });
+    }
+    return res.json(times);
+  });
+};
+
 // Get one
 module.exports.show = function (req, res) {
   const id = req.params.id;

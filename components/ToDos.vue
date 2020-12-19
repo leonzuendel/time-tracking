@@ -65,9 +65,9 @@ export default {
     project: Object
   },
   computed: {
-    ...mapState(["settings", "toDos"]),
+    ...mapState(["settings", "currentWorkspace"]),
     projectToDos() {
-      const result = this.toDos.filter(
+      const result = this.currentWorkspace.toDos.filter(
         (toDo) => toDo.project === this.project._id
       );
       return result;
@@ -91,16 +91,14 @@ export default {
     };
   },
   watch: {
-    "$store.state.toDos": {
+    "$store.state.currentWorkspace.toDos": {
       handler(val) {
         this.$store.dispatch("updateToDos", this.$store.state.toDos);
       },
       deep: true
     }
   },
-  async mounted() {
-    this.toDoIdCount = await this.$localForage.getItem("ToDoIdCount");
-  },
+  async mounted() {},
   methods: {
     checkToDo(toDo, index) {
       // this.$store.dispatch("checkToDo", { toDo, index });

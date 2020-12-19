@@ -15,7 +15,7 @@
         <ul id="project-nav">
           <draggable v-model="projects" handle=".handle" ghost-class="ghost">
             <li
-              v-for="(project, index) in projects"
+              v-for="(project, index) in currentWorkspace.projects"
               :key="project._id"
               :ref="'project-li-' + index"
               :class="isActive(project._id)"
@@ -46,7 +46,7 @@
     </div>
     <div v-if="dataReady" id="inner">
       <Project
-        v-if="projects && currentProject"
+        v-if="currentWorkspace.projects && currentProject"
         :project.sync="currentProject"
         :index="currentProjectIndex"
       />
@@ -86,20 +86,20 @@ export default {
   },
 
   computed: {
-    ...mapState(["projects", "projectSelected", "hideSideBar"]),
+    ...mapState(["currentWorkspace", "projectSelected", "hideSideBar"]),
     currentProject() {
-      const result = this.projects.filter((obj) => {
+      const result = this.currentWorkspace.projects.filter((obj) => {
         return obj._id === this.projectSelected;
       });
       return result[0];
     },
     currentProjectIndex() {
-      return this.projects.indexOf(this.currentProject);
+      return this.currentWorkspace.projects.indexOf(this.currentProject);
     }
   },
 
   watch: {
-    projects: {
+    "currentWorkspace.projects": {
       handler(val) {
         this.$store.dispatch("updateProject", {
           project: this.currentProject,
@@ -116,9 +116,12 @@ export default {
     }
     await this.$store.dispatch("loadData");
     // const projects = await this.$localForage.getItem("Projects");
-    if (this.projects) {
-      if (this.projects[0]) {
-        this.$store.dispatch("selectProject", this.projects[0]._id);
+    if (this.currentWorkspace.projects) {
+      if (this.currentWorkspace.projects[0]) {
+        this.$store.dispatch(
+          "selectProject",
+          this.currentWorkspace.projects[0]._id
+        );
       }
     }
     this.dataReady = true;
@@ -135,8 +138,10 @@ export default {
         title: "",
         content: "",
         users: [{ id: this.$auth.user._id, role: "owner" }],
+        workspace: this.currentWorkspace._id,
         settings: {},
-        color: this.randomColor()
+        color: this.randomColor(),
+        private: this.currentWorkspace.private
       };
       // this.saveProjects();
       await this.$store.dispatch("createProject", newProject);

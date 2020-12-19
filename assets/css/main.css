@@ -166,9 +166,11 @@ p {
   background-color: var(--grey-color);
   font-size: 0.9em;
   filter: brightness(0.9);
+  position: relative;
+  z-index: 20;
 }
 
-#top-bar > div {
+#top-bar > div:not(#user-settings) {
   padding-top: 10px;
   padding-bottom: 10px;
   display: inline-block;
@@ -176,6 +178,17 @@ p {
 
 #top-bar .app-title {
   padding-left: 10px;
+}
+
+#user-settings {
+  position: absolute;
+  top: var(--top-bar-height);
+  left: 0;
+  z-index: 20;
+}
+
+#user-settings ul li {
+  cursor: pointer;
 }
 
 .profile-color {

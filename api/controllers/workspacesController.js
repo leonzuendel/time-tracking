@@ -84,15 +84,10 @@ module.exports.update = [
 
       // initialize record
       workspace.title = req.body.title ? req.body.title : workspace.title;
-      workspace.content = req.body.content
-        ? req.body.content
-        : workspace.content;
-      workspace.settings = req.body.settings
-        ? req.body.settings
-        : workspace.settings;
+      workspace.projects = req.body.projects
+        ? req.body.projects
+        : workspace.projects;
       workspace.users = req.body.users ? req.body.users : workspace.users;
-      workspace.sort = req.body.sort ? req.body.sort : workspace.sort;
-      workspace.color = req.body.color ? req.body.color : workspace.color;
 
       // save record
       workspace.save(function (err, workspace) {

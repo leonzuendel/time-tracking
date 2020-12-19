@@ -1,9 +1,10 @@
 // State
 export const state = () => ({
-  projects: [],
-  times: [],
-  toDos: [],
   workspaces: [],
+  currentWorkspace: {
+    id: 1,
+    private: true
+  },
   projectSelected: 1,
   settings: {
     toDoistApiKey: "",
@@ -16,39 +17,19 @@ export const actions = {
   toggleSideBar({ commit }) {
     commit("TOGGLE_SIDEBAR");
   },
-  async loadData({ dispatch }) {
+  async loadData({ dispatch, state }) {
     await dispatch("getSettings");
+    await dispatch("getWorkspaces");
+    await dispatch("selectWorkspace", state.settings.currentWorkspace);
     await dispatch("getProjects");
     await dispatch("getTimes");
     await dispatch("getToDos");
   },
-  async getProjects({ commit }) {
-    await this.$axios.$get("/api/projects/user/" + this.$auth.user._id).then(
+  async getWorkspaces({ commit }) {
+    await this.$axios.$get("/api/workspaces/user/" + this.$auth.user._id).then(
       function (res) {
-        commit("SET_PROJECTS", res);
-        console.log("Projects loaded from DB");
-      },
-      function (err) {
-        console.log(err);
-      }
-    );
-  },
-  async getTimes({ commit }) {
-    await this.$axios.$get("/api/times/user/" + this.$auth.user._id).then(
-      function (res) {
-        commit("SET_TIMES", res);
-        console.log("Times loaded from DB");
-      },
-      function (err) {
-        console.log(err);
-      }
-    );
-  },
-  async getToDos({ commit }) {
-    await this.$axios.$get("/api/todos/user/" + this.$auth.user._id).then(
-      function (res) {
-        commit("SET_TODOS", res);
-        console.log("ToDos loaded from DB");
+        commit("SET_WORKSPACES", res);
+        console.log("Workspaces loaded from DB");
       },
       function (err) {
         console.log(err);
@@ -62,6 +43,19 @@ export const actions = {
         createdProject._id = res._id;
         commit("CREATE_PROJECT", createdProject);
         console.log("Project created in DB");
+      },
+      function (err) {
+        console.log(err);
+      }
+    );
+  },
+  async createWorkspace({ commit }, workspace) {
+    await this.$axios.$post("/api/workspaces", workspace).then(
+      function (res) {
+        const createdWorkspace = workspace;
+        createdWorkspace._id = res._id;
+        commit("CREATE_WORKSPACE", createdWorkspace);
+        console.log("Workspace created in DB");
       },
       function (err) {
         console.log(err);
@@ -108,12 +102,12 @@ export const actions = {
       );
   },
   updateTimes({ state, dispatch }) {
-    state.times.forEach((time, index) => {
+    state.currentWorkspace.times.forEach((time, index) => {
       dispatch("updateTime", { time, index });
     });
   },
   updateToDos({ state, dispatch }) {
-    state.toDos.forEach((toDo, index) => {
+    state.currentWorkspace.toDos.forEach((toDo, index) => {
       dispatch("updateToDo", { toDo, index });
     });
   },
@@ -172,6 +166,67 @@ export const actions = {
       }
     );
   },
+  async selectWorkspace({ commit, state, dispatch }, workspaceId) {
+    let projects = null;
+    const times = [];
+    const toDos = [];
+
+    let isPrivate;
+    if (workspaceId) {
+      isPrivate = false;
+    } else {
+      isPrivate = true;
+    }
+
+    if (!isPrivate) {
+      projects = await this.$axios.$get(
+        "/api/projects/workspace/" + workspaceId
+      );
+    } else {
+      projects = await this.$axios.$get(
+        "/api/projects/user/private/" + this.$auth.user._id
+      );
+    }
+
+    projects.forEach((project) => {
+      this.$axios.$get("/api/times/project/" + project._id).then(
+        function (res) {
+          res.forEach((time) => {
+            time.start = new Date(time.start);
+            time.end = new Date(time.end);
+            times.push(time);
+          });
+        },
+        function (err) {
+          console.log(err);
+        }
+      );
+
+      this.$axios.$get("/api/todos/project/" + project._id).then(
+        function (res) {
+          res.forEach((toDo) => {
+            toDo.done = toDo.done === "true";
+            toDo.imported = toDo.imported === "true";
+            toDos.push(toDo);
+          });
+        },
+        function (err) {
+          console.log(err);
+        }
+      );
+    });
+
+    const workspace = {
+      _id: workspaceId,
+      projects,
+      times,
+      toDos,
+      private: isPrivate
+    };
+
+    commit("SELECT_WORKSPACE", workspace);
+    dispatch("updateSettings", state.settings);
+  },
   selectProject({ commit }, projectId) {
     commit("SELECT_PROJECT", projectId);
   },
@@ -213,60 +268,61 @@ export const mutations = {
   SET_SETTINGS(state, payload) {
     state.settings = payload;
   },
-  SET_PROJECTS(state, payload) {
-    state.projects = payload;
-  },
-  async SET_TIMES(state, payload) {
-    await payload.forEach((time) => {
-      time.start = new Date(time.start);
-      time.end = new Date(time.end);
-    });
-    state.times = payload;
-  },
-  SET_TODOS(state, payload) {
-    state.toDos = payload;
+  SET_WORKSPACES(state, payload) {
+    state.workspaces = payload;
   },
   CREATE_PROJECT(state, payload) {
-    state.projects.push(payload);
+    state.currentWorkspace.projects.push(payload);
     state.projectSelected = payload._id;
   },
+  CREATE_WORKSPACE(state, payload) {
+    state.workspaces.push(payload);
+    state.currentWorkspace._id = payload._id;
+    state.currentWorkspace.projects = [];
+  },
   CREATE_TIME(state, payload) {
-    state.times.push(payload);
+    state.currentWorkspace.times.push(payload);
   },
   CREATE_TODO(state, payload) {
-    state.toDos.push(payload);
+    state.currentWorkspace.toDos.push(payload);
   },
   UPDATE_PROJECT(state, payload) {
-    state.projects[payload.index] = payload.project;
+    state.currentWorkspace.projects[payload.index] = payload.project;
   },
   UPDATE_TIME(state, payload) {
-    state.projects[payload.index] = payload.time;
+    state.currentWorkspace.projects[payload.index] = payload.time;
   },
   UPDATE_TODO(state, payload) {
-    state.toDos[payload.index] = payload.toDo;
+    state.currentWorkspace.toDos[payload.index] = payload.toDo;
   },
   DELETE_PROJECT(state, payload) {
     if (payload > -1) {
       if (
-        state.projectSelected === state.projects[payload]._id &&
-        state.projects.length > 1
+        state.projectSelected ===
+          state.currentWorkspace.projects[payload]._id &&
+        state.currentWorkspace.projects.length > 1
       ) {
         if (payload > 0) {
-          state.projectSelected = state.projects[payload - 1]._id;
-        } else if (state.projects.length > 1) {
-          state.projectSelected = state.projects[1]._id;
+          state.projectSelected =
+            state.currentWorkspace.projects[payload - 1]._id;
+        } else if (state.currentWorkspace.projects.length > 1) {
+          state.projectSelected = state.currentWorkspace.projects[1]._id;
         } else {
           state.projectSelected = 0;
         }
       }
     }
-    state.projects.splice(payload, 1);
+    state.currentWorkspace.projects.splice(payload, 1);
   },
   DELETE_TIME(state, payload) {
-    state.times.splice(payload, 1);
+    state.currentWorkspace.times.splice(payload, 1);
   },
   DELETE_TODO(state, payload) {
-    state.toDos.splice(payload, 1);
+    state.currentWorkspace.toDos.splice(payload, 1);
+  },
+  SELECT_WORKSPACE(state, payload) {
+    state.currentWorkspace = payload;
+    state.settings.currentWorkspace = payload._id;
   },
   SELECT_PROJECT(state, payload) {
     state.projectSelected = payload;
@@ -275,12 +331,14 @@ export const mutations = {
     if (payload.toDo.done) {
       payload.toDo.status = 0;
       payload.toDo.done = false;
-      state.toDos.splice(payload.index, 1);
-      state.toDos.unshift(payload.toDo);
+      state.currentWorkspace.toDos.splice(payload.index, 1);
+      state.currentWorkspace.toDos.unshift(payload.toDo);
     } else {
       payload.toDo.status = 1;
       payload.toDo.done = true;
-      state.toDos.push(state.toDos.splice(payload.index, 1)[0]);
+      state.currentWorkspace.toDos.push(
+        state.currentWorkspace.toDos.splice(payload.index, 1)[0]
+      );
     }
   }
 };

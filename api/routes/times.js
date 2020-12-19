@@ -9,8 +9,11 @@ const timesController = require("../controllers/timesController");
 // Get All
 router.get("/times", timesController.list);
 
-// Get One by User
+// Get All by User
 router.get("/times/user/:user_id", timesController.listByUser);
+
+// Get All by Project
+router.get("/times/project/:project_id", timesController.listByProject);
 
 // Get One
 router.get("/times/:id", timesController.show);

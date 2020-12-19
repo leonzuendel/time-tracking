@@ -12,11 +12,16 @@
     <button class="settings-button" @click="openSettings()">
       <i class="las la-ellipsis-h"></i>
     </button>
+    <userSettings />
   </div>
 </template>
 
 <script>
+import userSettings from "@/components/userSettings";
 export default {
+  components: {
+    userSettings
+  },
   props: {
     settingsOpen: Boolean
   },
