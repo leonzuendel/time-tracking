@@ -36,7 +36,8 @@ module.exports.register = [
       password: req.body.password,
       settings: {
         toDoistApiKey: "",
-        toDoistEnabled: false
+        toDoistEnabled: false,
+        workspaceSelected: "private"
       },
       login_method: "email"
     });
@@ -150,7 +151,8 @@ module.exports.loginWithGoogle = [
           email: req.body.email,
           settings: {
             toDoistApiKey: "",
-            toDoistEnabled: false
+            toDoistEnabled: false,
+            workspaceSelected: "private"
           },
           login_method: "google"
         });
