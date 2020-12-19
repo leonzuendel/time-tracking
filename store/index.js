@@ -1,14 +1,12 @@
 // State
 export const state = () => ({
   workspaces: [],
-  currentWorkspace: {
-    id: 1,
-    private: true
-  },
+  currentWorkspace: {},
   projectSelected: 1,
   settings: {
     toDoistApiKey: "",
-    toDoistEnabled: false
+    toDoistEnabled: false,
+    workspaceSelected: "private"
   },
   hideSideBar: false
 });
@@ -20,7 +18,7 @@ export const actions = {
   async loadData({ dispatch, state }) {
     await dispatch("getSettings");
     await dispatch("getWorkspaces");
-    await dispatch("selectWorkspace", state.settings.currentWorkspace);
+    await dispatch("selectWorkspace", state.settings.workspaceSelected);
     await dispatch("getProjects");
     await dispatch("getTimes");
     await dispatch("getToDos");
@@ -49,12 +47,14 @@ export const actions = {
       }
     );
   },
-  async createWorkspace({ commit }, workspace) {
+  async createWorkspace({ commit, dispatch, state }, workspace) {
     await this.$axios.$post("/api/workspaces", workspace).then(
       function (res) {
         const createdWorkspace = workspace;
         createdWorkspace._id = res._id;
         commit("CREATE_WORKSPACE", createdWorkspace);
+        dispatch("selectWorkspace", res._id);
+        dispatch("updateSettings", state.settings);
         console.log("Workspace created in DB");
       },
       function (err) {
@@ -166,62 +166,79 @@ export const actions = {
       }
     );
   },
-  async selectWorkspace({ commit, state, dispatch }, workspaceId) {
-    let projects = null;
+  async selectWorkspace({ commit, state, dispatch }, workspaceSelected) {
+    let projects = [];
     const times = [];
     const toDos = [];
 
-    let isPrivate;
-    if (workspaceId) {
-      isPrivate = false;
+    if (workspaceSelected !== "private") {
+      await this.$axios
+        .$get("/api/projects/workspace/" + workspaceSelected)
+        .then(
+          function (res) {
+            projects = res;
+          },
+          function (err) {
+            console.log(err);
+          }
+        );
     } else {
-      isPrivate = true;
+      await this.$axios
+        .$get("/api/projects/user/private/" + this.$auth.user._id)
+        .then(
+          function (res) {
+            projects = res;
+          },
+          function (err) {
+            console.log(err);
+          }
+        );
     }
 
-    if (!isPrivate) {
-      projects = await this.$axios.$get(
-        "/api/projects/workspace/" + workspaceId
-      );
-    } else {
-      projects = await this.$axios.$get(
-        "/api/projects/user/private/" + this.$auth.user._id
-      );
+    if (projects !== []) {
+      projects.forEach((project) => {
+        this.$axios.$get("/api/times/project/" + project._id).then(
+          function (res) {
+            res.forEach((time) => {
+              time.start = new Date(time.start);
+              time.end = new Date(time.end);
+              times.push(time);
+            });
+          },
+          function (err) {
+            console.log(err);
+          }
+        );
+
+        this.$axios.$get("/api/todos/project/" + project._id).then(
+          function (res) {
+            res.forEach((toDo) => {
+              toDos.push(toDo);
+            });
+          },
+          function (err) {
+            console.log(err);
+          }
+        );
+      });
     }
 
-    projects.forEach((project) => {
-      this.$axios.$get("/api/times/project/" + project._id).then(
-        function (res) {
-          res.forEach((time) => {
-            time.start = new Date(time.start);
-            time.end = new Date(time.end);
-            times.push(time);
-          });
-        },
-        function (err) {
-          console.log(err);
-        }
-      );
+    let title = "";
 
-      this.$axios.$get("/api/todos/project/" + project._id).then(
-        function (res) {
-          res.forEach((toDo) => {
-            toDo.done = toDo.done === "true";
-            toDo.imported = toDo.imported === "true";
-            toDos.push(toDo);
-          });
-        },
-        function (err) {
-          console.log(err);
-        }
-      );
-    });
+    if (workspaceSelected !== "private") {
+      title = state.workspaces.filter((obj) => {
+        return obj._id === workspaceSelected;
+      })[0].title;
+    } else {
+      title = "Private";
+    }
 
     const workspace = {
-      _id: workspaceId,
+      _id: workspaceSelected,
+      title,
       projects,
       times,
-      toDos,
-      private: isPrivate
+      toDos
     };
 
     commit("SELECT_WORKSPACE", workspace);
@@ -322,7 +339,7 @@ export const mutations = {
   },
   SELECT_WORKSPACE(state, payload) {
     state.currentWorkspace = payload;
-    state.settings.currentWorkspace = payload._id;
+    state.settings.workspaceSelected = payload._id;
   },
   SELECT_PROJECT(state, payload) {
     state.projectSelected = payload;

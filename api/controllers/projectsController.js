@@ -28,7 +28,7 @@ module.exports.listByUser = function (req, res, next) {
 module.exports.listPrivateByUser = function (req, res, next) {
   const id = req.params.user_id;
   Project.find(
-    { users: { $elemMatch: { id, private: true } } },
+    { users: { $elemMatch: { id } }, private: true },
     function (err, projects) {
       if (err) {
         return res.status(500).json({
@@ -121,7 +121,9 @@ module.exports.update = [
       project.workspace = req.body.workspace
         ? req.body.workspace
         : project.workspace;
-      project.private = req.body.private ? req.body.private : project.private;
+      if (req.body.private !== null && req.body.private !== project.private) {
+        project.private = req.body.private;
+      }
 
       // save record
       project.save(function (err, project) {

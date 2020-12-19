@@ -99,8 +99,12 @@ module.exports.update = [
       toDo.content = req.body.content ? req.body.content : toDo.content;
       toDo.category = req.body.category ? req.body.category : toDo.category;
       toDo.status = req.body.status ? req.body.status : toDo.status;
-      toDo.done = req.body.done ? req.body.done : toDo.done;
-      toDo.imported = req.body.imported ? req.body.imported : toDo.imported;
+      if (req.body.done !== null && req.body.done !== toDo.done) {
+        toDo.done = req.body.done;
+      }
+      if (req.body.imported !== null && req.body.imported !== toDo.imported) {
+        toDo.imported = req.body.imported;
+      }
       toDo.importedFrom = req.body.importedFrom
         ? req.body.importedFrom
         : toDo.importedFrom;

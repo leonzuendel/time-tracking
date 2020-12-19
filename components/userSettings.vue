@@ -1,16 +1,27 @@
 <template>
   <div id="user-settings">
-    <input v-model="workspaceName" />
-    <button @click="addWorkspace()">Create Workspace</button>
+    <h2>Workspaces</h2>
     <ul>
+      <li
+        class="private"
+        :class="{ active: isActive('private') }"
+        @click="selectWorkspace('private')"
+      >
+        Private
+      </li>
       <li
         v-for="workspace in workspaces"
         :key="workspace._id"
+        :class="{ active: isActive(workspace._id) }"
         @click="selectWorkspace(workspace._id)"
       >
         {{ workspace.title }}
       </li>
     </ul>
+    <div class="add-workspace">
+      <input v-model="workspaceName" class="form-input" />
+      <button class="button" @click="addWorkspace()">Create Workspace</button>
+    </div>
   </div>
 </template>
 
@@ -19,25 +30,32 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
-      workspacName: ""
+      workspaceName: ""
     };
   },
   computed: {
-    ...mapState(["workspaces", "settings"])
+    ...mapState(["workspaces", "settings", "currentWorkspace"])
   },
   methods: {
     async addWorkspace() {
-      // Boilerplate not working
-      const newWorkspace = {
-        title: this.workspaceName,
-        projects: [],
-        users: [{ id: this.$auth.user._id, role: "owner" }]
-      };
-      await this.$store.dispatch("createWorkspace", newWorkspace);
-      this.workspaceName = "";
+      if (this.workspaceName !== "") {
+        // Boilerplate not working
+        const newWorkspace = {
+          title: this.workspaceName,
+          projects: [],
+          users: [{ id: this.$auth.user._id, role: "owner" }]
+        };
+        await this.$store.dispatch("createWorkspace", newWorkspace);
+        this.workspaceName = "";
+      }
     },
     selectWorkspace(workspaceId) {
       this.$store.dispatch("selectWorkspace", workspaceId);
+    },
+    isActive(id) {
+      if (id === this.settings.workspaceSelected) {
+        return "active";
+      }
     }
   }
 };

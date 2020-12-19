@@ -86,7 +86,12 @@ export default {
   },
 
   computed: {
-    ...mapState(["currentWorkspace", "projectSelected", "hideSideBar"]),
+    ...mapState([
+      "currentWorkspace",
+      "projectSelected",
+      "hideSideBar",
+      "settings"
+    ]),
     currentProject() {
       const result = this.currentWorkspace.projects.filter((obj) => {
         return obj._id === this.projectSelected;
@@ -138,11 +143,16 @@ export default {
         title: "",
         content: "",
         users: [{ id: this.$auth.user._id, role: "owner" }],
-        workspace: this.currentWorkspace._id,
         settings: {},
-        color: this.randomColor(),
-        private: this.currentWorkspace.private
+        color: this.randomColor()
       };
+
+      if (this.settings.workspaceSelected !== "private") {
+        newProject.workspace = this.settings.workspaceSelected;
+        newProject.private = false;
+      } else {
+        newProject.private = true;
+      }
       // this.saveProjects();
       await this.$store.dispatch("createProject", newProject);
     },

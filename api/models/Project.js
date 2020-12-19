@@ -9,7 +9,7 @@ const Project = new Schema({
   sort: { type: Number, required: false },
   color: { type: String, required: false },
   workspace: { type: String, required: false },
-  private: { type: Boolean, required: false }
+  private: { type: Boolean, required: true }
 });
 
 module.exports = mongoose.model("Project", Project);

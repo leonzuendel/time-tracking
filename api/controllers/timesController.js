@@ -109,14 +109,34 @@ module.exports.update = [
       time.background = req.body.background
         ? req.body.background
         : time.background;
-      time.allDay = req.body.allDay ? req.body.allDay : time.allDay;
       time.daysCount = req.body.daysCount ? req.body.daysCount : time.daysCount;
-      time.deletable = req.body.deletable ? req.body.deletable : time.deletable;
-      time.titleEditable = req.body.titleEditable
-        ? req.body.titleEditable
-        : time.titleEditable;
-      time.resizable = req.body.resizable ? req.body.resizable : time.resizable;
-      time.draggable = req.body.draggable ? req.body.draggable : time.draggable;
+      if (
+        req.body.deletable !== null &&
+        req.body.deletable !== time.deletable
+      ) {
+        time.deletable = req.body.deletable;
+      }
+      if (
+        req.body.titleEditable !== null &&
+        req.body.titleEditable !== time.titleEditable
+      ) {
+        time.titleEditable = req.body.titleEditable;
+      }
+      if (
+        req.body.resizable !== null &&
+        req.body.resizable !== time.resizable
+      ) {
+        time.resizable = req.body.resizable;
+      }
+      if (
+        req.body.draggable !== null &&
+        req.body.draggable !== time.draggable
+      ) {
+        time.draggable = req.body.draggable;
+      }
+      if (req.body.allDay !== null && req.body.allDay !== time.allDay) {
+        time.allDay = req.body.allDay;
+      }
       time.class = req.body.class ? req.body.class : time.class;
       time.user = req.body.user ? req.body.user : time.user;
       time.project = req.body.project ? req.body.project : time.project;

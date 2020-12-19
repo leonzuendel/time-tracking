@@ -38,7 +38,7 @@
     <br />
     <span class="light"
       >TimeTracking made with <i class="las la-heart"></i> by Leon Zündel<br />
-      v.0.1.2 | Pre-alpha stadium</span
+      v.0.1.3 | Pre-alpha stadium</span
     >
   </section>
 </template>

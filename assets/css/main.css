@@ -3,11 +3,12 @@
 :root {
   --font-color: #0f0f0f;
   --light-font-color: #8d8d8d;
-  --main-color: #dddddd;
+  --main-color: #cecdcd;
   --second-color: #456be9;
   --red-color: rgb(170, 28, 28);
   --light-red-color: rgba(170, 28, 28, 0.3);
   --grey-color: #f6f6f6;
+  --dark-grey-color: #eceaea;
   --bg-color: #ffffff;
   --site-padding: 25px;
   --top-bar-height: 45px;
@@ -163,9 +164,8 @@ p {
 #top-bar {
   height: var(--top-bar-height);
   width: 100%;
-  background-color: var(--grey-color);
+  background-color: var(--main-color);
   font-size: 0.9em;
-  filter: brightness(0.9);
   position: relative;
   z-index: 20;
 }
@@ -178,17 +178,64 @@ p {
 
 #top-bar .app-title {
   padding-left: 10px;
+  padding-right: 12px;
+  cursor: pointer;
+  background-color: var(--main-color);
+}
+
+#top-bar .app-title:hover {
+  filter: brightness(0.97);
+}
+
+#top-bar > * {
+  user-select: none;
 }
 
 #user-settings {
+  padding-top: 10px;
   position: absolute;
-  top: var(--top-bar-height);
-  left: 0;
+  top: calc(var(--top-bar-height) + 10px);
+  left: 10px;
   z-index: 20;
+  background-color: var(--dark-grey-color);
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+#user-settings button {
+  vertical-align: -1px;
+}
+
+#user-settings > *:not(ul) {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+#user-settings ul {
+  margin-bottom: 15px;
 }
 
 #user-settings ul li {
   cursor: pointer;
+  width: 100%;
+  padding: 8px 10px 8px 10px;
+  background-color: var(--dark-grey-color);
+}
+
+#user-settings ul li:not(:last-of-type) {
+  border-bottom: 1px solid var(--main-color);
+}
+
+#user-settings ul li:hover {
+  filter: brightness(0.97);
+}
+
+#user-settings ul li.active {
+  background-color: var(--main-color);
+}
+
+#user-settings ul li.private {
+  color: var(--light-font-color);
 }
 
 .profile-color {
@@ -988,7 +1035,6 @@ input[type="checkbox"]:checked + label::after {
 
 .settings-button {
   float: right;
-  background-color: var(--grey-color);
   border: none;
   padding: 10px;
   padding-left: 30px;
@@ -996,7 +1042,7 @@ input[type="checkbox"]:checked + label::after {
   text-align: center;
   font-size: 0.85em;
   cursor: pointer;
-  border-radius: 4px;
+  background-color: var(--main-color);
 }
 
 .settings-button i {
@@ -1017,7 +1063,7 @@ input[type="checkbox"]:checked + label::after {
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 10;
+  z-index: 25;
 }
 
 /* StopWatch */
