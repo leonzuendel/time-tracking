@@ -1,15 +1,38 @@
 <template>
   <section class="todos">
-    <button class="add-todo" @click="addToDo()">
+    <!--<button class="add-todo" @click="addToDo()">
       <i class="las la-plus-circle"></i>Add ToDo
-    </button>
+    </button>-->
     <ul>
       <li class="todo headline">
         <div></div>
         <div>Title</div>
-        <div>Status</div>
+        <div><span v-if="projectToDos.length > 0">Status</span></div>
         <div>Description</div>
-        <div>Category</div>
+        <div><span v-if="projectToDos.length > 0">Category</span></div>
+      </li>
+      <li class="todo new">
+        <div>
+          <button class="create-item" @click="addToDo()">
+            <i class="las la-plus-circle"></i>
+          </button>
+        </div>
+        <div>
+          <input
+            v-model="newToDo.title"
+            placeholder="Enter Title"
+            @keyup.enter="addToDo()"
+          />
+        </div>
+        <div></div>
+        <div>
+          <input
+            v-model="newToDo.description"
+            placeholder="Enter Description"
+            @keyup.enter="addToDo()"
+          />
+        </div>
+        <div></div>
       </li>
       <draggable
         v-model="projectToDos"
@@ -87,6 +110,10 @@ export default {
   data() {
     return {
       toDoIdCount: 1,
+      newToDo: {
+        title: "",
+        description: ""
+      },
       toDoBoilerplate: {
         title: "",
         content: "",
@@ -115,10 +142,13 @@ export default {
       // this.$store.dispatch("checkToDo", { toDo, index });
     },
     async addToDo() {
+      if (!this.newToDo.title) {
+        return;
+      }
       // Boilerplate not working
       const newToDo = {
-        title: "",
-        content: "",
+        title: this.newToDo.title,
+        content: this.newToDo.description,
         category: 0,
         status: 0,
         done: false,
@@ -128,6 +158,8 @@ export default {
         project: this.project._id
       };
       await this.$store.dispatch("createToDo", newToDo);
+      this.newToDo.title = "";
+      this.newToDo.description = "";
     },
     deleteToDo(index, toDo) {
       if (index > -1) {

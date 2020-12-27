@@ -17,6 +17,9 @@
     <button class="settings-button" @click="openSettings()">
       <i class="las la-ellipsis-h"></i>
     </button>
+    <button class="settings-button sync" @click="$store.dispatch('loadData')">
+      <i class="las la-sync" :class="{ 'is-loading': loading }"></i>
+    </button>
     <userSettings v-if="userSettingsOpen" />
   </div>
 </template>
@@ -37,7 +40,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["currentWorkspace"])
+    ...mapState(["currentWorkspace", "loading"])
   },
   methods: {
     openSettings() {

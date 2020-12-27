@@ -8,17 +8,20 @@ export const state = () => ({
     toDoistEnabled: false,
     workspaceSelected: "private"
   },
-  hideSideBar: false
+  hideSideBar: false,
+  loading: true
 });
 
 export const actions = {
   toggleSideBar({ commit }) {
     commit("TOGGLE_SIDEBAR");
   },
-  async loadData({ dispatch, state }) {
+  async loadData({ dispatch, state, commit }) {
+    commit("SET_LOADING", true);
     await dispatch("getSettings");
     await dispatch("getWorkspaces");
     await dispatch("selectWorkspace", state.settings.workspaceSelected);
+    commit("SET_LOADING", false);
   },
   async getWorkspaces({ commit }) {
     await this.$axios.$get("/api/workspaces/user/" + this.$auth.user._id).then(
@@ -330,6 +333,9 @@ export const actions = {
 export const mutations = {
   TOGGLE_SIDEBAR(state) {
     state.hideSideBar = !state.hideSideBar;
+  },
+  SET_LOADING(state, payload) {
+    state.loading = payload;
   },
   SET_SETTINGS(state, payload) {
     state.settings = payload;
