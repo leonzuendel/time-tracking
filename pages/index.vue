@@ -1,70 +1,75 @@
 <template>
-  <div
-    v-if="dataReady"
-    id="content"
-    class="has-side-bar"
-    :class="{ 'hidden-side-bar': hideSideBar }"
-  >
-    <div id="side-bar" :class="{ hidden: hideSideBar }">
-      <div class="side-bar-toggle" @click="$store.dispatch('toggleSideBar')">
-        <i v-if="!hideSideBar" class="las la-minus"></i>
-        <i v-if="hideSideBar" class="las la-bars"></i>
+  <div>
+    <div
+      v-if="dataReady"
+      id="content"
+      class="has-side-bar"
+      :class="{ 'hidden-side-bar': hideSideBar }"
+    >
+      <div id="side-bar" :class="{ hidden: hideSideBar }">
+        <div class="side-bar-toggle" @click="$store.dispatch('toggleSideBar')">
+          <i v-if="!hideSideBar" class="las la-minus"></i>
+          <i v-if="hideSideBar" class="las la-bars"></i>
+        </div>
+        <div v-if="!hideSideBar" class="not-hidden">
+          <h2>Projects</h2>
+          <ul id="project-nav">
+            <draggable v-model="projects" handle=".handle" ghost-class="ghost">
+              <li
+                v-for="(project, index) in currentWorkspace.projects"
+                :key="project._id"
+                :ref="'project-li-' + index"
+                :class="isActive(project._id)"
+              >
+                <div class="inner" @click="selectProject(project._id)">
+                  <i class="las la-braille handle"></i>
+                  <div
+                    class="project-color"
+                    :style="{ backgroundColor: projectColor(project.color) }"
+                  ></div>
+                  {{ project.title ? project.title : "Untitled" }}
+                </div>
+                <div>
+                  <button
+                    class="delete-project"
+                    @click="deleteProject(index, project)"
+                  >
+                    <i class="lar la-trash-alt"></i>
+                  </button>
+                </div>
+              </li>
+            </draggable>
+          </ul>
+          <button class="add-project" @click="addProject()">
+            <i class="las la-plus-circle"></i>Add Project
+          </button>
+        </div>
       </div>
-      <div v-if="!hideSideBar" class="not-hidden">
-        <h2>Projects</h2>
-        <ul id="project-nav">
-          <draggable v-model="projects" handle=".handle" ghost-class="ghost">
-            <li
-              v-for="(project, index) in currentWorkspace.projects"
-              :key="project._id"
-              :ref="'project-li-' + index"
-              :class="isActive(project._id)"
-            >
-              <div class="inner" @click="selectProject(project._id)">
-                <i class="las la-braille handle"></i>
-                <div
-                  class="project-color"
-                  :style="{ backgroundColor: projectColor(project.color) }"
-                ></div>
-                {{ project.title ? project.title : "Untitled" }}
-              </div>
-              <div>
-                <button
-                  class="delete-project"
-                  @click="deleteProject(index, project)"
-                >
-                  <i class="lar la-trash-alt"></i>
-                </button>
-              </div>
-            </li>
-          </draggable>
-        </ul>
-        <button class="add-project" @click="addProject()">
-          <i class="las la-plus-circle"></i>Add Project
-        </button>
+      <div v-if="dataReady" id="inner">
+        <Project
+          v-if="currentWorkspace.projects && currentProject"
+          :project.sync="currentProject"
+          :index="currentProjectIndex"
+        />
+        <p v-else class="no-projects"></p>
       </div>
+      <div v-else class="loading">Loading Data...</div>
     </div>
-    <div v-if="dataReady" id="inner">
-      <Project
-        v-if="currentWorkspace.projects && currentProject"
-        :project.sync="currentProject"
-        :index="currentProjectIndex"
-      />
-      <p v-else class="no-projects"></p>
-    </div>
-    <div v-else class="loading">Loading Data...</div>
+    <Loader v-else />
   </div>
 </template>
 
 <script>
 import Project from "@/components/Project";
+import Loader from "@/components/Loader";
 import { mapState } from "vuex";
 export default {
   middleware: "auth",
   name: "Projects",
 
   components: {
-    Project
+    Project,
+    Loader
   },
 
   data() {
