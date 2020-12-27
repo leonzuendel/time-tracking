@@ -212,7 +212,6 @@ p {
 }
 
 #user-settings ul {
-  margin-bottom: 15px;
 }
 
 #user-settings ul li {
@@ -220,10 +219,14 @@ p {
   width: 100%;
   padding: 8px 10px 8px 10px;
   background-color: var(--dark-grey-color);
+  border-top: 1px solid var(--main-color);
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  grid-gap: 1em;
 }
 
-#user-settings ul li:not(:last-of-type) {
-  border-bottom: 1px solid var(--main-color);
+#user-settings .invite {
+  user-select: text;
 }
 
 #user-settings ul li:hover {
@@ -236,6 +239,36 @@ p {
 
 #user-settings ul li.private {
   color: var(--light-font-color);
+}
+
+.table-head {
+  color: var(--light-font-color);
+  font-size: 0.8em;
+}
+
+.table-head:hover {
+  color: var(--light-font-color) !important;
+  background-color: inherit !important;
+  cursor: inherit !important;
+}
+
+.copy-button {
+  float: right;
+  color: var(--light-font-color);
+}
+
+.copy-button i {
+  margin-right: 0 !important;
+  margin-left: 0.5em;
+}
+
+.copy-button:hover {
+  color: var(--font-color);
+}
+
+.add-workspace {
+  border-top: 1px solid var(--main-color);
+  padding-top: 15px;
 }
 
 .profile-color {

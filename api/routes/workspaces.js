@@ -25,6 +25,13 @@ router.put(
   workspacesController.update
 );
 
+// Join by Invite
+router.post(
+  "/workspaces/join/invite",
+  config.isAuthenticated,
+  workspacesController.joinByInvite
+);
+
 // Delete
 router.delete(
   "/workspaces/:id",

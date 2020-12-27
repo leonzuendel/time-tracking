@@ -1,6 +1,6 @@
 <template>
   <section id="settings">
-    <h2>My Account</h2>
+    <h2>Profile Info</h2>
 
     <h4>{{ this.$auth.user.first_name }} {{ this.$auth.user.last_name }}</h4>
 

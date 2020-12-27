@@ -59,6 +59,21 @@ export const actions = {
       },
       function (err) {
         console.log(err);
+        dispatch("createWorkspace", workspace);
+      }
+    );
+  },
+  async joinWorkspace({ commit, dispatch, state }, params) {
+    await this.$axios.$post("/api/workspaces/join/invite", params).then(
+      function (res) {
+        const createdWorkspace = res;
+        commit("CREATE_WORKSPACE", createdWorkspace);
+        dispatch("selectWorkspace", res._id);
+        dispatch("updateSettings", state.settings);
+        console.log("User added to workspace in DB.");
+      },
+      function (err) {
+        console.log(err);
       }
     );
   },
@@ -339,6 +354,9 @@ export const mutations = {
   },
   SELECT_WORKSPACE(state, payload) {
     state.currentWorkspace = payload;
+    if (payload.projects.length > 0) {
+      state.projectSelected = payload.projects[0]._id;
+    }
     state.settings.workspaceSelected = payload._id;
   },
   SELECT_PROJECT(state, payload) {

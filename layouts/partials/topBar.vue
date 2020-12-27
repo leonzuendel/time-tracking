@@ -8,7 +8,7 @@
       <span v-if="$auth.user"
         >{{ $auth.user.first_name }} {{ $auth.user.last_name }}</span
       >
-      <span class="light">| {{ currentWorkspace.title }}</span>
+      <span class="light"> {{ currentWorkspace.title }}</span>
     </div>
     <button class="settings-button" @click="openSettings()">
       <i class="las la-ellipsis-h"></i>

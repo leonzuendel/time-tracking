@@ -55,7 +55,9 @@ export default {
     // https://go.nuxtjs.dev/pwa
     "@nuxtjs/pwa",
 
-    "@nuxtjs/auth" // enables Nuxt Auth module
+    "@nuxtjs/auth", // enables Nuxt Auth module
+
+    "nuxt-clipboard2"
   ],
 
   auth: {
