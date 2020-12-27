@@ -11,7 +11,7 @@ export default {
     script: [{ src: "https://apis.google.com/js/platform.js" }]
   },
 
-  loading: false,
+  loading: "~/components/Loader.vue",
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: [
