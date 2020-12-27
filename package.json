@@ -13,6 +13,7 @@
     "update": "git add --all && git commit -m 'Update' && git push"
   },
   "dependencies": {
+    "@babel/runtime": "^7.12.5",
     "@nuxtjs/auth": "^4.9.1",
     "@nuxtjs/axios": "^5.12.2",
     "@nuxtjs/localforage": "^1.1.0",
@@ -22,6 +23,7 @@
     "core-js": "^3.6.5",
     "express": "^4.17.1",
     "express-validator": "^6.8.0",
+    "fs-extra": "^9.0.1",
     "google-signin-vue": "^1.2.2",
     "googleapis": "^66.0.0",
     "jsonwebtoken": "^8.5.1",

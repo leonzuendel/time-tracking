@@ -13,7 +13,7 @@
       </li>
       <li class="todo new">
         <div>
-          <button class="create-item" @click="addToDo()">
+          <button class="create-todo" @click="addToDo()">
             <i class="las la-plus-circle"></i>
           </button>
         </div>
@@ -142,7 +142,7 @@ export default {
       // this.$store.dispatch("checkToDo", { toDo, index });
     },
     async addToDo() {
-      if (!this.newToDo.title) {
+      if (this.newToDo.title === "") {
         return;
       }
       // Boilerplate not working

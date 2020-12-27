@@ -7,7 +7,15 @@ export default {
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { hid: "description", name: "description", content: "" }
     ],
-    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+    link: [
+      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com" },
+      {
+        href:
+          "https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap",
+        rel: "stylesheet"
+      }
+    ],
     script: [{ src: "https://apis.google.com/js/platform.js" }]
   },
 

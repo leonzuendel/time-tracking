@@ -4,8 +4,8 @@
   --font-color: #0f0f0f;
   --light-font-color: #8d8d8d;
   --main-color: #cecdcd;
-  --second-color: #456be9;
-  --red-color: rgb(170, 28, 28);
+  --second-color: #1565c0;
+  --red-color: #d50000;
   --light-red-color: rgba(170, 28, 28, 0.3);
   --grey-color: #f6f6f6;
   --dark-grey-color: #eceaea;
@@ -17,7 +17,7 @@
   --project-color-red: rgb(170, 28, 28);
   --project-color-blue: rgb(28, 73, 170);
   --project-color-green: rgb(10, 141, 10);
-  --project-color-yellow: rgb(233, 218, 3);
+  --project-color-yellow: rgb(241, 226, 14);
   --project-color-orange: rgb(247, 109, 18);
 }
 
@@ -459,8 +459,7 @@ section.grey {
 }
 
 #project-nav li.active .inner {
-  background-color: var(--grey-color);
-  filter: brightness(0.9);
+  background-color: var(--main-color);
 }
 
 .project {
@@ -510,11 +509,12 @@ li:active .handle {
 }
 
 .project-color {
-  height: 1em;
-  width: 1em;
+  height: 1.1em;
+  width: 1.1em;
+  border: 1px solid var(--bg-color);
   background-color: var(--red-color);
   display: inline-block;
-  vertical-align: -1px;
+  vertical-align: -2px;
   margin-right: 0.8em;
   margin-left: -0.3em;
   border-radius: 100%;
@@ -834,6 +834,36 @@ li:active .handle {
 .calendar-list-view .time .time-duration {
 }
 
+.calendar-list-view .time.new > div {
+  background-color: transparent;
+}
+
+.calendar-list-view .time.new > div input {
+  border-bottom: 1px solid var(--main-color);
+  padding-bottom: 10px;
+  border-radius: 0;
+}
+
+.create-time {
+  background-color: transparent;
+  border: none;
+  font-size: 1.6em;
+  margin: 0;
+  padding: 0;
+  margin-right: 20px;
+  border-radius: 100%;
+  cursor: pointer;
+}
+
+.time.new .new-title {
+  width: 70%;
+  vertical-align: 5px;
+}
+
+.create-time:hover {
+  background-color: var(--grey-color);
+}
+
 .vc-popover-content-wrapper {
   margin-left: -10px !important;
 }
@@ -940,9 +970,10 @@ li:active .handle {
 .todos .todo.new > div input {
   border-bottom: 1px solid var(--main-color);
   padding-bottom: 10px;
+  border-radius: 0;
 }
 
-.create-item {
+.create-todo {
   background-color: transparent;
   border: none;
   font-size: 1.6em;
@@ -954,7 +985,7 @@ li:active .handle {
   cursor: pointer;
 }
 
-.create-item:hover {
+.create-todo:hover {
   background-color: var(--grey-color);
 }
 

@@ -1,7 +1,7 @@
 <template>
   <div id="user-settings">
     <h2>Workspaces</h2>
-    <p class="light">You can manage your and your team's workspaces here.</p>
+    <p>You can manage your and your team's workspaces here.</p>
     <ul>
       <li
         class="private"

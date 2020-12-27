@@ -1,18 +1,68 @@
 <template>
   <div class="calendar-list-view">
-    <button class="add-time" @click="addTime()">
+    <!--<button class="add-time" @click="addTime()">
       <i class="las la-plus-circle"></i>Add Entry
-    </button>
+    </button>-->
     <ul>
       <li class="time headline">
         <div>Title</div>
         <div>Description</div>
-        <div>ToDo</div>
+        <div><span v-if="projectTimes.length > 0">ToDo</span></div>
         <div>Start Date/Time</div>
         <div>End Date/Time</div>
         <div>
           Duration <span class="light">({{ totalDuration }})</span>
         </div>
+      </li>
+      <li class="time new">
+        <div>
+          <button class="create-time" @click="addTime()">
+            <i class="las la-plus-circle"></i>
+          </button>
+          <input
+            v-model="newTime.title"
+            placeholder="Enter Title"
+            class="new-title"
+            @keyup.enter="addTime()"
+          />
+        </div>
+        <div>
+          <input
+            v-model="newTime.description"
+            placeholder="Enter Description"
+            @keyup.enter="addTime()"
+          />
+        </div>
+        <div></div>
+        <div>
+          <client-only
+            ><date-picker
+              v-model="newTime.start"
+              mode="dateTime"
+              color="blue"
+              is24hr
+            >
+              <template v-slot="{ inputValue, inputEvents }">
+                <input :value="inputValue" v-on="inputEvents" />
+              </template>
+            </date-picker>
+          </client-only>
+        </div>
+        <div>
+          <client-only
+            ><date-picker
+              v-model="newTime.end"
+              mode="dateTime"
+              color="blue"
+              is24hr
+            >
+              <template v-slot="{ inputValue, inputEvents }">
+                <input :value="inputValue" v-on="inputEvents" />
+              </template>
+            </date-picker>
+          </client-only>
+        </div>
+        <div>{{ getDuration(newTime.start, newTime.end) }}</div>
       </li>
       <li v-for="(time, index) in projectTimes" :key="index" class="time">
         <div class="delete-time" @click="deleteTime(index, time)">
@@ -83,6 +133,16 @@ export default {
     project: Object,
     projectTimes: Array
   },
+  data() {
+    return {
+      newTime: {
+        title: "",
+        description: "",
+        start: new Date(),
+        end: new Date()
+      }
+    };
+  },
   computed: {
     totalDuration() {
       let duration = 0;
@@ -131,12 +191,15 @@ export default {
       this.$emit("update:project", this.project);
     },
     async addTime() {
+      if (this.newTime.title === "") {
+        return;
+      }
       // Boilerplate not working
       const newTime = {
-        start: new Date(),
-        end: new Date(),
-        title: "",
-        content: "",
+        start: this.newTime.start,
+        end: this.newTime.end,
+        title: this.newTime.title,
+        content: this.newTime.description,
         deletable: true,
         deleting: false,
         titleEditable: true,
@@ -152,6 +215,11 @@ export default {
         project: this.project._id
       };
       await this.$store.dispatch("createTime", newTime);
+
+      this.newTime.start = new Date();
+      this.newTime.end = new Date();
+      this.newTime.title = "";
+      this.newTime.description = "";
     },
     otherUser(id) {
       return id !== this.$auth.user._id;
