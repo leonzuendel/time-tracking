@@ -36,7 +36,18 @@
               /><label :for="'todo' + index"></label>
             </div>
           </div>
-          <div>
+          <div class="todo-title">
+            <div class="profile-color">
+              {{
+                $store.getters
+                  .getWorkspaceUserInfo(toDo.user)
+                  .first_name.slice(0, 1)
+              }}{{
+                $store.getters
+                  .getWorkspaceUserInfo(toDo.user)
+                  .last_name.slice(0, 1)
+              }}
+            </div>
             <input v-model="toDo.title" type="text" placeholder="A new task" />
           </div>
           <div class="todo-status">

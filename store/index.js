@@ -34,6 +34,17 @@ export const actions = {
       }
     );
   },
+  async getUserInfo(id) {
+    await this.$axios.$get("/api/users/info/" + id).then(
+      function (res) {
+        console.log(res);
+        return res;
+      },
+      function (err) {
+        console.log(err);
+      }
+    );
+  },
   async createProject({ commit }, project) {
     await this.$axios.$post("/api/projects", project).then(
       function (res) {
@@ -186,6 +197,10 @@ export const actions = {
     const times = [];
     const toDos = [];
 
+    if (workspaceSelected === state.workspaceSelected) {
+      return;
+    }
+
     if (workspaceSelected !== "private") {
       await this.$axios
         .$get("/api/projects/workspace/" + workspaceSelected)
@@ -240,10 +255,31 @@ export const actions = {
 
     let title = "";
 
+    let userIds = [];
+    const users = [];
+
     if (workspaceSelected !== "private") {
       title = state.workspaces.filter((obj) => {
         return obj._id === workspaceSelected;
       })[0].title;
+      userIds = state.workspaces.filter((obj) => {
+        return obj._id === workspaceSelected;
+      })[0].users;
+      await Promise.all(
+        userIds.map(async (user) => {
+          let userInfo = null;
+          await this.$axios.$get("/api/users/info/" + user.id).then(
+            function (res) {
+              console.log(res);
+              userInfo = res;
+            },
+            function (err) {
+              console.log(err);
+            }
+          );
+          users.push(userInfo);
+        })
+      );
     } else {
       title = "Private";
     }
@@ -253,7 +289,8 @@ export const actions = {
       title,
       projects,
       times,
-      toDos
+      toDos,
+      users
     };
 
     commit("SELECT_WORKSPACE", workspace);
@@ -378,6 +415,10 @@ export const mutations = {
   }
 };
 
-export const getters = {};
+export const getters = {
+  getWorkspaceUserInfo: (state) => (id) => {
+    return state.currentWorkspace.users.find((user) => user._id === id);
+  }
+};
 
 export const strict = false;

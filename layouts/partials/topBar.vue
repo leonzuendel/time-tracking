@@ -1,6 +1,10 @@
 <template>
   <div id="top-bar">
-    <div class="app-title" @click="userSettingsOpen = !userSettingsOpen">
+    <div
+      v-if="$auth.user"
+      class="app-title"
+      @click="userSettingsOpen = !userSettingsOpen"
+    >
       <div class="profile-color">
         {{ $auth.user.first_name.slice(0, 1)
         }}{{ $auth.user.last_name.slice(0, 1) }}

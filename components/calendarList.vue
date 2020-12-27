@@ -19,6 +19,17 @@
           <i class="lar la-trash-alt"></i>
         </div>
         <div class="time-title">
+          <div class="profile-color">
+            {{
+              $store.getters
+                .getWorkspaceUserInfo(time.user)
+                .first_name.slice(0, 1)
+            }}{{
+              $store.getters
+                .getWorkspaceUserInfo(time.user)
+                .last_name.slice(0, 1)
+            }}
+          </div>
           <input v-model="time.title" type="text" placeholder="Untitled" />
         </div>
         <div class="time-description">

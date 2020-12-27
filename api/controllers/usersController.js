@@ -275,9 +275,30 @@ module.exports.user = function (req, res) {
   }
 };
 
-// Get Settings
+// Get Basic Info
+module.exports.showBasicInfo = function (req, res) {
+  const id = req.params.id;
+  User.findOne({ _id: id }, function (err, user) {
+    if (err) {
+      return res.status(500).json({
+        message: "Error getting user."
+      });
+    }
+    if (!user) {
+      return res.status(404).json({
+        message: "No such record"
+      });
+    }
+    return res.json({
+      _id: user._id,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      email: user.email
+    });
+  });
+};
 
-// Get one
+// Get Settings
 module.exports.showSettings = function (req, res) {
   const id = req.params.id;
   User.findOne({ _id: id }, function (err, user) {

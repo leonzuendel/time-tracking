@@ -799,8 +799,9 @@ li:active .handle {
   border: none;
 }
 
-.calendar-list-view .time .time-title {
-  font-weight: bold;
+.calendar-list-view .time .time-title input {
+  display: inline-block;
+  width: inherit;
 }
 
 .calendar-list-view .time .time-description {
@@ -940,8 +941,9 @@ li:active .handle {
   border: none;
 }
 
-.todos .todo .todo-title {
-  font-weight: bold;
+.todos .todo .todo-title input {
+  display: inline-block;
+  width: inherit;
 }
 
 .todos .todo .todo-description {

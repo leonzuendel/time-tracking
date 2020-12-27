@@ -18,6 +18,13 @@ router.get("/users/user", usersController.user);
 // Login with Google
 router.post("/users/google", usersController.loginWithGoogle);
 
+// Get Basic Info ! for other users !
+router.get(
+  "/users/info/:id",
+  config.isAuthenticated,
+  usersController.showBasicInfo
+);
+
 // Get User Settings
 router.get(
   "/users/:id/settings",
