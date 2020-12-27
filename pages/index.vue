@@ -172,6 +172,7 @@ export default {
 
     selectProject(id) {
       this.$store.dispatch("selectProject", id);
+      this.$store.dispatch("loadData");
     },
 
     isActive(id) {

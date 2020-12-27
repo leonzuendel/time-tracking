@@ -111,6 +111,7 @@ export default {
     },
     switchTab(tab) {
       this.currentTabComponent = tab.component;
+      this.$store.dispatch("loadData");
     },
     isActive(tab) {
       if (tab.component === this.currentTabComponent) {

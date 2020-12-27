@@ -394,7 +394,7 @@ export const mutations = {
   },
   SELECT_WORKSPACE(state, payload) {
     state.currentWorkspace = payload;
-    if (payload.projects.length > 0) {
+    if (payload.projects.length > 0 && state.projectSelected === 1) {
       state.projectSelected = payload.projects[0]._id;
     }
     state.settings.workspaceSelected = payload._id;
