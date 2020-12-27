@@ -135,10 +135,6 @@ export default {
       }
     }
     this.dataReady = true;
-
-    setInterval(function () {
-      this.$store.dispatch("loadData");
-    }, 60000);
   },
 
   methods: {
