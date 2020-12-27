@@ -19,9 +19,6 @@ export const actions = {
     await dispatch("getSettings");
     await dispatch("getWorkspaces");
     await dispatch("selectWorkspace", state.settings.workspaceSelected);
-    await dispatch("getProjects");
-    await dispatch("getTimes");
-    await dispatch("getToDos");
   },
   async getWorkspaces({ commit }) {
     await this.$axios.$get("/api/workspaces/user/" + this.$auth.user._id).then(
