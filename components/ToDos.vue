@@ -60,7 +60,7 @@
             </div>
           </div>
           <div class="todo-title">
-            <div class="profile-color">
+            <div class="profile-color" :class="{ other: otherUser(toDo.user) }">
               {{
                 $store.getters
                   .getWorkspaceUserInfo(toDo.user)
@@ -168,6 +168,9 @@ export default {
           index
         });
       }
+    },
+    otherUser(id) {
+      return id !== this.$auth.user._id;
     }
   }
 };

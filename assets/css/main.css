@@ -286,6 +286,10 @@ p {
   text-transform: uppercase;
 }
 
+.profile-color.other {
+  background-color: var(--red-color);
+}
+
 #content:not(.has-side-bar) {
   padding: 30px;
   overflow: scroll;
@@ -801,7 +805,7 @@ li:active .handle {
 
 .calendar-list-view .time .time-title input {
   display: inline-block;
-  width: inherit;
+  width: 85%;
 }
 
 .calendar-list-view .time .time-description {
@@ -968,7 +972,7 @@ li:active .handle {
 
 .todos .todo .todo-title input {
   display: inline-block;
-  width: inherit;
+  width: 85%;
 }
 
 .todos .todo .todo-description {

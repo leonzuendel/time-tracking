@@ -19,7 +19,7 @@
           <i class="lar la-trash-alt"></i>
         </div>
         <div class="time-title">
-          <div class="profile-color">
+          <div class="profile-color" :class="{ other: otherUser(time.user) }">
             {{
               $store.getters
                 .getWorkspaceUserInfo(time.user)
@@ -152,6 +152,9 @@ export default {
         project: this.project._id
       };
       await this.$store.dispatch("createTime", newTime);
+    },
+    otherUser(id) {
+      return id !== this.$auth.user._id;
     }
   }
 };
