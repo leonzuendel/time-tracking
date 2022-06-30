@@ -14,7 +14,9 @@
           {{ project.name }}
         </option>
       </select>
-      <button class="big-button" @click="importFromToDoist()">Import</button>
+      <el-button class="big-button" @click="importFromToDoist()"
+        >Import</el-button
+      >
     </div>
     <div v-else>
       <p>Please provide an API token in the workspace settings.</p>
@@ -33,12 +35,9 @@
       :placeholder="project.title"
       class="safe-delete-input"
     />
-    <button
-      class="delete-project-button"
-      @click="deleteProject(index, project)"
-    >
+    <el-button type="danger" @click="deleteProject(index, project)">
       <i class="lar la-trash-alt"></i> Delete Project
-    </button>
+    </el-button>
   </section>
 </template>
 

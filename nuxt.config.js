@@ -19,10 +19,11 @@ export default {
     script: [{ src: "https://apis.google.com/js/platform.js" }]
   },
 
-  loading: "~/components/Loader.vue",
+  loading: false,
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
   css: [
+    "element-ui/lib/theme-chalk/index.css",
     "@/assets/css/main.css",
     "quill/dist/quill.core.css",
     "quill/dist/quill.snow.css",
@@ -32,6 +33,7 @@ export default {
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
+    { src: "@/plugins/element-ui" },
     { src: "@/plugins/VueQuillEditor.js", ssr: false },
     { src: "@/plugins/vueDraggable.js", ssr: false },
     { src: "@/plugins/VueDatepicker.js", ssr: false }
@@ -103,7 +105,9 @@ export default {
   },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
-  build: {},
+  build: {
+    transpile: [/^element-ui/]
+  },
 
   // API
   serverMiddleware: ["~/api/index.js"]

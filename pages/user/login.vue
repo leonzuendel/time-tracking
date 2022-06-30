@@ -8,7 +8,7 @@
         <br />
       </div>
 
-      <googleSignIn
+      <!--<googleSignIn
         :client-id="'622609394022-41n656at0qeotqb5s2tvljmgvju01atg.apps.googleusercontent.com'"
         :success-call-back="loginWithGoogle"
         :custom-button-id="'google-login'"
@@ -21,7 +21,7 @@
             /><span>Sign in with Google</span>
           </button></slot
         ></googleSignIn
-      >
+      >-->
 
       <h3>Sign in with email</h3>
 
@@ -32,6 +32,7 @@
           type="text"
           class="form-control"
           :class="{ 'is-invalid': errors && errors.email }"
+          @keypress.enter="submitForm()"
         />
         <div v-if="errors && errors.email" class="invalid-feedback">
           {{ errors.email.msg }}
@@ -43,6 +44,7 @@
           type="password"
           class="form-control"
           :class="{ 'is-invalid': errors && errors.password }"
+          @keypress.enter="submitForm()"
         />
         <div v-if="errors && errors.password" class="invalid-feedback">
           {{ errors.password.msg }}
@@ -52,7 +54,7 @@
           {{ login_error }}
         </div>
 
-        <input type="submit" value="Sign in" class="button color" />
+        <el-button @click="submitForm()">Sign in</el-button>
       </form>
       <br />
       Don't have an account yet?
@@ -62,10 +64,10 @@
 </template>
 
 <script>
-import googleSignIn from "google-signin-vue/src/googleSignIn.vue";
+// import googleSignIn from "google-signin-vue/src/googleSignIn.vue";
 export default {
   components: {
-    googleSignIn
+    // googleSignIn
   },
   layout: "page",
   middleware: "auth",

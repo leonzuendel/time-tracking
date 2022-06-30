@@ -36,7 +36,9 @@
         class="form-input"
         placeholder="Workspace Name"
       />
-      <button class="button" @click="addWorkspace()">Create Workspace</button>
+      <el-button class="button" @click="addWorkspace()"
+        >Create Workspace</el-button
+      >
     </div>
     <div class="add-workspace invite">
       <input
@@ -44,7 +46,9 @@
         class="form-input"
         placeholder="Invite Code"
       />
-      <button class="button" @click="joinWorkspace()">Join Workspace</button>
+      <el-button class="button" @click="joinWorkspace()"
+        >Join Workspace</el-button
+      >
     </div>
   </div>
 </template>

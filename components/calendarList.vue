@@ -1,8 +1,8 @@
 <template>
   <div class="calendar-list-view">
-    <!--<button class="add-time" @click="addTime()">
+    <!--<el-button class="add-time" @click="addTime()">
       <i class="las la-plus-circle"></i>Add Entry
-    </button>-->
+    </el-button>-->
     <ul>
       <li class="time headline">
         <div>Title</div>
@@ -16,9 +16,9 @@
       </li>
       <li class="time new">
         <div>
-          <button class="create-time" @click="addTime()">
+          <el-button class="create-time" @click="addTime()">
             <i class="las la-plus-circle"></i>
-          </button>
+          </el-button>
           <input
             v-model="newTime.title"
             placeholder="Enter Title"

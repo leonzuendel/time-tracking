@@ -1,8 +1,8 @@
 <template>
   <section class="todos">
-    <!--<button class="add-todo" @click="addToDo()">
+    <!--<el-button class="add-todo" @click="addToDo()">
       <i class="las la-plus-circle"></i>Add ToDo
-    </button>-->
+    </el-button>-->
     <ul>
       <li class="todo headline">
         <div></div>
@@ -13,9 +13,9 @@
       </li>
       <li class="todo new">
         <div>
-          <button class="create-todo" @click="addToDo()">
+          <el-button class="create-todo" @click="addToDo()">
             <i class="las la-plus-circle"></i>
-          </button>
+          </el-button>
         </div>
         <div>
           <input

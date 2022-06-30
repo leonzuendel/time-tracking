@@ -10,9 +10,9 @@
 
     <strong>Email:</strong> {{ this.$auth.user.email }} <br /><br />
 
-    <button class="button block">
+    <el-button class="button block">
       <nuxt-link to="/user/logout">Sign out</nuxt-link>
-    </button>
+    </el-button>
     <br />
 
     <h2>Workspace Integrations</h2>

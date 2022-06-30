@@ -30,19 +30,19 @@
                   {{ project.title ? project.title : "Untitled" }}
                 </div>
                 <div>
-                  <button
+                  <el-button
                     class="delete-project"
                     @click="deleteProject(index, project)"
                   >
                     <i class="lar la-trash-alt"></i>
-                  </button>
+                  </el-button>
                 </div>
               </li>
             </draggable>
           </ul>
-          <button class="add-project" @click="addProject()">
+          <el-button class="add-project" @click="addProject()">
             <i class="las la-plus-circle"></i>Add Project
-          </button>
+          </el-button>
         </div>
       </div>
       <div v-if="dataReady" id="inner">

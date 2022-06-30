@@ -55,15 +55,15 @@ body {
   -webkit-app-region: drag;
 }
 
+button.el-button {
+ height: auto;
+ font-size: 1em !important;
+}
+
 button.button {
-  border: none;
-  border-radius: 0;
-  background-color: var(--grey-color);
   cursor: pointer;
   text-align: center;
   font-size: 1em;
-  filter: brightness(0.85);
-  border-radius: 4px;
 }
 
 button.button.block {
@@ -71,7 +71,7 @@ button.button.block {
 }
 
 button.button:hover {
-  filter: brightness(0.75);
+
 }
 
 button.button a {
@@ -87,13 +87,11 @@ input {
 input[type="submit"],
 input[type="button"] {
   border: none;
-  border-radius: 0;
-  background-color: var(--grey-color);
+  background-color: transparent;
   cursor: pointer;
-  text-align: center;
+  margin: 0 !important;
+  padding: 0;
   font-size: 1em;
-  filter: brightness(0.85);
-  border-radius: 4px;
 }
 
 input[type="submit"]:hover,
@@ -393,10 +391,9 @@ section.grey {
   margin-bottom: 1em;
 }
 
-.center-box input[type="submit"] {
+.center-box button {
   margin-top: 8px;
   width: 100%;
-  border-radius: 4px;
 }
 
 .login-button {

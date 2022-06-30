@@ -1,17 +1,17 @@
 <template>
   <div class="stop-watch">
     <div v-if="started" class="elapsed-time">{{ time }}</div>
-    <button
+    <el-button
       class="watch-button"
       :class="{ started: running }"
       @click="startStop()"
     >
       <i v-if="!running" class="fas fa-play"></i>
       <i v-else class="fas fa-stop"></i>
-    </button>
-    <button v-if="running" class="pause-button" @click="pause()">
+    </el-button>
+    <el-button v-if="running" class="pause-button" @click="pause()">
       <i class="fas fa-pause"></i>
-    </button>
+    </el-button>
   </div>
 </template>
 

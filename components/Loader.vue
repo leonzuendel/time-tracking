@@ -1,7 +1,8 @@
 <template>
-  <div v-if="loading" class="loading-page">
-    <div class="loading"></div>
-  </div>
+  <!--<div v-if="loading" class="loading-page">
+   <div class="loading"></div>
+ </div>-->
+  <div></div>
 </template>
 <script>
 export default {
